@@ -1,0 +1,51 @@
+﻿@page
+@model IndexModel
+@{ ViewData["Title"] = "Home page"; }
+@Html.AntiForgeryToken()
+<button type="button" id="invokeAjaxHello">Run Hello</button>
+@Html.AntiForgeryToken()
+<button type="button" id="doubleYourMoney">Attempt to double your money</button>
+
+<div id="result">----</div>
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">$("#invokeAjaxHello").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/Index?handler=GetAjax",
+                data:{"name": " World!"},
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: "json",
+                headers:
+                {
+                    "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                success: function( message ) {
+                    document.getElementById("result").innerHTML = message;
+                }
+            });
+
+        });
+        $("#doubleYourMoney").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/Index?handler=DoubleMoney",
+                data: {"description": "please", "value": 2},
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: "json",
+                headers:
+                {
+                    "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                success: function( message ) {
+                    document.getElementById("result").innerHTML = message;
+                }
+            });
+
+        });</script>
+}

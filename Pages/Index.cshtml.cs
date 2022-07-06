@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-//namespace ajax.Pages;
-
 public class IndexModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;

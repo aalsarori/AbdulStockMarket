@@ -19,6 +19,11 @@ public class IndexModel : PageModel
     public IndexModel(ILogger<IndexModel> logger)
     {
         _logger = logger;
+
+        // Initialize
+        m_Cash = 10000;
+        m_Stocks = 0;
+        m_Ticker = "";
     }
 
     public IActionResult OnPostGetAjax(string name)

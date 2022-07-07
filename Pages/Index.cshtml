@@ -8,8 +8,28 @@
 
 <div id="result">----</div>
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to B(l)ra(ck)d Rock Finances</h1>
+    <p>Cash: CALL CASH</p>
+    <p>Shares: CALL SHARES</p>
+
+    <form action="/action_page.php">
+      <label for="cars">Choose Ticker:</label>
+      <select name="cars" id="cars">
+        <option value="volvo">Volvo</option>
+        <option value="saab">Saab</option>
+        <option value="opel">Opel</option>
+        <option value="audi">Audi</option>
+      </select>
+      <br><br>
+      <input type="submit" value="Submit">
+    </form>
+
+    <button type="button" id="invokeAjaxHello">Buy (lets you choose how much to buy and adds to shares)</button>
+    <button type="button" id="invokeAjaxHello">Sell (lets you choose how much to sell and adds to cash)</button>
+    <button type="button" id="invokeAjaxHello">Hold (goes to next day without action)</button>
+    <button type="button" id="invokeAjaxHello">Quit (sells all, shows final result)</button>
+
+
 </div>
 
 @section Scripts

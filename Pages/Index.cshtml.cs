@@ -28,7 +28,7 @@ public class IndexModel : PageModel
         m_Ticker = "";
 
         // Call the random date in the last 6 months function
-        m_Date = "call the function";
+        m_Date = RandomDate;
     }
 
     public IActionResult OnPostGetAjax(string name)
@@ -136,8 +136,36 @@ public class IndexModel : PageModel
     }
 
     // Choose a random date in the last 6 months function
+    // TAN
+    public string RandomDate
+    {
+        get
+        {
+            string randomDate = "";
+            
+            // Find a random date in the last 6 months
+
+            // Return only the day month and year (2022-12-01)
+
+            DateTime date = DateTime.Now.ToString("yyyy-MM-dd");
+           
+            return randomDate;
+        }
+    }
 
     // Move the date forward by 1 week or 1 month or so function
+    // TAN
+    public string MoveForward(string date)
+    {
+        string randomDate = DateTime.Parse(date);
+            
+        // Find a random date in the last 6 months
+        // DateTime.Parse() DateTime.Now DateTime.AddWeeks
+        // Move forward a week
+           
+        return randomDate;
+    }
+    
 
     // Sell everything and close the game function
 

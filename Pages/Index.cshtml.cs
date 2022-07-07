@@ -15,6 +15,8 @@ public class IndexModel : PageModel
     // Stock Shares
     private double m_Stocks;
 
+    // Date
+    private string m_Date;
 
     public IndexModel(ILogger<IndexModel> logger)
     {
@@ -24,6 +26,9 @@ public class IndexModel : PageModel
         m_Cash = 10000;
         m_Stocks = 0;
         m_Ticker = "";
+
+        // Call the random date in the last 6 months function
+        m_Date = "call the function";
     }
 
     public IActionResult OnPostGetAjax(string name)
@@ -65,6 +70,14 @@ public class IndexModel : PageModel
         get
         {
             return m_Ticker;
+        }
+    }
+
+    public string GetDate
+    {
+        get
+        {
+            return m_Date;
         }
     }
 
@@ -121,6 +134,12 @@ public class IndexModel : PageModel
 
         return tickerPrice.ToString();
     }
+
+    // Choose a random date in the last 6 months function
+
+    // Move the date forward by 1 week or 1 month or so function
+
+    // Sell everything and close the game function
 
     public void OnGet()
     {

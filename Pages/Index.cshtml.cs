@@ -26,7 +26,7 @@ public class IndexModel : PageModel
         m_Ticker = "AAPL";
 
         // Call the random date in the last 6 months function
-        m_Date = OnPostRandomDate;
+        m_Date = OnPostRandomDate.ToString();
     }
 
     public IActionResult OnPostGetAjax(string name)
@@ -71,12 +71,10 @@ public class IndexModel : PageModel
         }
     }
 
-    public IActionResult OnPostGetDate
+    public IActionResult OnPostGetDate(string name)
     {
-        get
-        {
-            return new JsonResult("Date: " + m_Date);
-        }
+        string returning = "Date: " + m_Date;
+        return new JsonResult(returning);
     }
 
     // Create a function that queries the database for the current price at the current day
@@ -129,7 +127,7 @@ public class IndexModel : PageModel
         // Divide the amount sold by the ticker price, and subtract that from the total shares
         double totalSold = 0;
 
-        if(amountSold != null)
+        if (amountSold != null)
         {
             totalSold = tickerPrice * double.Parse(amountSold);
         }
@@ -170,7 +168,7 @@ public class IndexModel : PageModel
         // Divide the amount to buy by the ticker price, and add that to the total shares
         double totalShares = 0;
 
-        if(amountBuy != null)
+        if (amountBuy != null)
         {
             totalShares = tickerPrice / double.Parse(amountBuy);
         }
@@ -228,30 +226,30 @@ public class IndexModel : PageModel
         get
         {
             string randomDate = "2022-05-02";
-            
+
             // Find a random date in the last 6 months
 
             // Return only the day month and year (2022-12-01)
 
             //DateTime date = DateTime.Now.ToString("yyyy-MM-dd");
-           
+
             return randomDate;
         }
     }
 
     // Move the date forward by 1 week or 1 month or so function
     // TAN
-    public string OnPostMoveForward(string date)
+    public IActionResult OnPostMoveForward(string date)
     {
         string randomDate = "";
 
         //string randomDate = DateTime.Parse(date);
-            
+
         // Find a random date in the last 6 months
         // DateTime.Parse() DateTime.Now DateTime.AddWeeks
         // Move forward a week
-           
-        return randomDate;
+
+        return new JsonResult(randomDate);
     }
 
     public void OnGet()

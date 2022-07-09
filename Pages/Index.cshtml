@@ -9,11 +9,8 @@
 @Html.AntiForgeryToken()
 <button type="button" id="doubleYourMoney">Attempt to double your money</button>
 
-<div id="result">----</div>
 <div class="text-center">
     <h1 class="display-4">Welcome to B(l)ra(ck)d Rock Finances</h1>
-
-    <div id="result">Date: </div>
 
     <p>Cash: </p>
     <p>Shares: </p>
@@ -33,6 +30,8 @@
     <br />
      @Html.AntiForgeryToken()
     <button type="button" id="invokeData">(TEST)</button>
+    <br />
+    <div id="result">---</div>
     <br />
      @Html.AntiForgeryToken()
     <button type="button" id="invokeAjaxHello">Buy (lets you choose how much to buy and adds to shares)</button>
@@ -56,7 +55,8 @@
         $("#invokeData").click(function() {
             $.ajax({
                 type: "POST",
-                url: "/Index?handler=OnPostGetDate",
+                url: "/Index?handler=GetDate",
+                data: { "name": " World!" },
                 contentType: 'application/x-www-form-urlencoded',
                 dataType: "json",
                 headers:

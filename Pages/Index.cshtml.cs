@@ -6,8 +6,6 @@ using System.Data.SqlClient;
 
 public class IndexModel : PageModel
 {
-    private readonly ILogger<IndexModel> _logger;
-
     // Ticker Symbol
     private string m_Ticker;
 
@@ -20,10 +18,8 @@ public class IndexModel : PageModel
     // Date
     private string m_Date;
 
-    public IndexModel(ILogger<IndexModel> logger)
+    public IndexModel()
     {
-        _logger = logger;
-
         // Initialize
         m_Cash = 10000;
         m_Stocks = 0;

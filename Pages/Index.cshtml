@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Home page";
 }
+
 @Html.AntiForgeryToken()
 <button type="button" id="invokeAjaxHello">Run Hello</button>
 @Html.AntiForgeryToken()
@@ -86,6 +87,7 @@
             });
 
         });
+
         $("#doubleYourMoney").click(function() {
             $.ajax({
                 type: "POST",
@@ -101,8 +103,8 @@
                     document.getElementById("result").innerHTML = message;
                 }
             });
-
-        });</script>
+        });
+        </script>
 }
 
     <!--

@@ -27,7 +27,7 @@ public class IndexModel : PageModel
         // Initialize
         m_Cash = 10000;
         m_Stocks = 0;
-        m_Ticker = "";
+        m_Ticker = "AAPL";
 
         // Call the random date in the last 6 months function
         m_Date = RandomDate;
@@ -84,30 +84,33 @@ public class IndexModel : PageModel
     }
 
     // Create a function that queries the database for the current price at the current day
-    public IActionResult CurrentTickerPrice(string tickerName)
+    public IActionResult CurrentTickerPrice
     {
-        double tickerPrice = 0;
+        get
+        {
+            double tickerPrice = 0;
 
-        // Run query
-        string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
-        SqlConnection connection = new SqlConnection(connectionString);
-        connection.Open();
+            // Run query
+            string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
+            SqlConnection connection = new SqlConnection(connectionString);
+            connection.Open();
 
-        DateTime tempDate = DateTime.Parse(m_Date);
-        string sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", tickerName, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
-        SqlCommand db = new SqlCommand(sql, connection);
+            DateTime tempDate = DateTime.Parse(m_Date);
+            string sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", m_Ticker, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
+            SqlCommand db = new SqlCommand(sql, connection);
 
-        // Assign value
-        tickerPrice = (double)db.ExecuteScalar();
+            // Assign value
+            tickerPrice = (double)db.ExecuteScalar();
 
-        // Close the connection
-        connection.Close();
+            // Close the connection
+            connection.Close();
 
-        return new JsonResult(tickerPrice.ToString());
+            return new JsonResult(tickerPrice.ToString());
+        }
     }
 
     // Create function that sells a certain amount of stock and adds that money for the price of that day to cash but takes away the shares
-    public IActionResult SellStocks(string tickerName, string amountSold)
+    public IActionResult SellStocks(string amountSold)
     {
         double tickerPrice = 0;
 
@@ -117,7 +120,7 @@ public class IndexModel : PageModel
         connection.Open();
 
         DateTime tempDate = DateTime.Parse(m_Date);
-        string sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", tickerName, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
+        string sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", m_Ticker, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
         SqlCommand db = new SqlCommand(sql, connection);
 
         // Assign value
@@ -149,7 +152,7 @@ public class IndexModel : PageModel
     }
 
     // Create function that buys a certain amount of stock based on an amount of cash and adds it to shares but takes it from cash
-    public IActionResult BuyStocks(string tickerName, string amountBuy)
+    public IActionResult BuyStocks(string amountBuy)
     {
         double tickerPrice = 0;
 
@@ -159,7 +162,7 @@ public class IndexModel : PageModel
         connection.Open();
 
         DateTime tempDate = DateTime.Parse(m_Date);
-        string sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", tickerName, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
+        string sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", m_Ticker, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
         SqlCommand db = new SqlCommand(sql, connection);
 
         // Assign value
@@ -189,34 +192,37 @@ public class IndexModel : PageModel
     }
 
     // Sell everything and close the game function
-    public IActionResult Quit(string tickerName)
+    public IActionResult Quit
     {
-        double tickerPrice = 0;
+        get
+        {
+            double tickerPrice = 0;
 
-        // Run query
-        string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
-        SqlConnection connection = new SqlConnection(connectionString);
-        connection.Open();
+            // Run query
+            string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
+            SqlConnection connection = new SqlConnection(connectionString);
+            connection.Open();
 
-        DateTime tempDate = DateTime.Parse(m_Date);
-        string sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", tickerName, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
-        SqlCommand db = new SqlCommand(sql, connection);
+            DateTime tempDate = DateTime.Parse(m_Date);
+            string sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", m_Ticker, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
+            SqlCommand db = new SqlCommand(sql, connection);
 
-        // Assign value
-        tickerPrice = (double)db.ExecuteScalar();
+            // Assign value
+            tickerPrice = (double)db.ExecuteScalar();
 
-        // Close the connection
-        connection.Close();
+            // Close the connection
+            connection.Close();
 
-        // Divide the amount sold by the ticker price, and subtract that from the total shares
-        double totalSold = 0;
+            // Divide the amount sold by the ticker price, and subtract that from the total shares
+            double totalSold = 0;
 
-        totalSold = tickerPrice * m_Stocks;
+            totalSold = tickerPrice * m_Stocks;
 
-        m_Cash += totalSold;
+            m_Cash += totalSold;
 
-        // Should I return anything?
-        return new JsonResult(tickerPrice.ToString());
+            // Should I return anything?
+            return new JsonResult(tickerPrice.ToString());
+        }
     }
 
     // Choose a random date in the last 6 months function
@@ -225,7 +231,7 @@ public class IndexModel : PageModel
     {
         get
         {
-            string randomDate = "";
+            string randomDate = "2022-05-02";
             
             // Find a random date in the last 6 months
 

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Data.SqlClient;
 
 public class IndexModel : PageModel
 {
@@ -86,11 +88,20 @@ public class IndexModel : PageModel
     {
         double tickerPrice = 0;
 
-        string sql = "SELECT TICKER PRICE FROM TABLE WHERE DATE ";
-
         // Run query
+        string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
+        SqlConnection connection = new SqlConnection(connectionString);
+        connection.Open();
+
+        DateTime tempDate = DateTime.Parse(m_Date);
+        string sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", tickerName, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
+        SqlCommand db = new SqlCommand(sql, connection);
 
         // Assign value
+        tickerPrice = (double)db.ExecuteScalar();
+
+        // Close the connection
+        connection.Close();
 
         return new JsonResult(tickerPrice.ToString());
     }
@@ -100,11 +111,21 @@ public class IndexModel : PageModel
     {
         double tickerPrice = 0;
 
-        string sql = "SELECT TICKER PRICE FROM TABLE WHERE DATE ";
-
         // Run query
+        string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
+        SqlConnection connection = new SqlConnection(connectionString);
+        connection.Open();
+
+        DateTime tempDate = DateTime.Parse(m_Date);
+        string sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", tickerName, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
+        SqlCommand db = new SqlCommand(sql, connection);
 
         // Assign value
+        tickerPrice = (double)db.ExecuteScalar();
+
+        // Close the connection
+        connection.Close();
+
 
         // Divide the amount sold by the ticker price, and subtract that from the total shares
         double totalSold = 0;
@@ -132,11 +153,20 @@ public class IndexModel : PageModel
     {
         double tickerPrice = 0;
 
-        string sql = "SELECT TICKER PRICE FROM TABLE WHERE DATE ";
-
         // Run query
+        string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
+        SqlConnection connection = new SqlConnection(connectionString);
+        connection.Open();
+
+        DateTime tempDate = DateTime.Parse(m_Date);
+        string sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", tickerName, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
+        SqlCommand db = new SqlCommand(sql, connection);
 
         // Assign value
+        tickerPrice = (double)db.ExecuteScalar();
+
+        // Close the connection
+        connection.Close();
 
         // Divide the amount to buy by the ticker price, and add that to the total shares
         double totalShares = 0;
@@ -163,11 +193,20 @@ public class IndexModel : PageModel
     {
         double tickerPrice = 0;
 
-        string sql = "SELECT TICKER PRICE FROM TABLE WHERE DATE ";
-
         // Run query
+        string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
+        SqlConnection connection = new SqlConnection(connectionString);
+        connection.Open();
+
+        DateTime tempDate = DateTime.Parse(m_Date);
+        string sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", tickerName, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
+        SqlCommand db = new SqlCommand(sql, connection);
 
         // Assign value
+        tickerPrice = (double)db.ExecuteScalar();
+
+        // Close the connection
+        connection.Close();
 
         // Divide the amount sold by the ticker price, and subtract that from the total shares
         double totalSold = 0;

@@ -1,6 +1,8 @@
 ﻿@page
 @model IndexModel
-@{ ViewData["Title"] = "Home page"; }
+@{
+    ViewData["Title"] = "Home page";
+}
 @Html.AntiForgeryToken()
 <button type="button" id="invokeAjaxHello">Run Hello</button>
 @Html.AntiForgeryToken()
@@ -9,44 +11,76 @@
 <div id="result">----</div>
 <div class="text-center">
     <h1 class="display-4">Welcome to B(l)ra(ck)d Rock Finances</h1>
-    <p>Date: CALL DATE</p>
-    <p>Cash: CALL CASH</p>
-    <p>Shares: CALL SHARES</p>
+
+    <div id="result">Date: </div>
+
+    <p>Cash: </p>
+    <p>Shares: </p>
 
     <form action="/action_page.php">
-      <label for="cars">Choose Ticker:</label>
-      <select name="cars" id="cars">
-        <option value="volvo">Volvo</option>
-        <option value="saab">Saab</option>
-        <option value="opel">Opel</option>
-        <option value="APPL">Apple (APPL)</option>
-      </select>
-      <br><br>
-      <input type="submit" value="Submit">
+        <label for="cars">Choose Ticker:</label>
+        <select name="cars" id="cars">
+            <option value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+            <option value="opel">Opel</option>
+            <option value="APPL">Apple (APPL)</option>
+        </select>
+        <br><br>
+        <input type="submit" value="Submit">
     </form>
 
+    <br />
+     @Html.AntiForgeryToken()
+    <button type="button" id="invokeData">(TEST)</button>
+    <br />
+     @Html.AntiForgeryToken()
     <button type="button" id="invokeAjaxHello">Buy (lets you choose how much to buy and adds to shares)</button>
+    <br />
+     @Html.AntiForgeryToken()
     <button type="button" id="invokeAjaxHello">Sell (lets you choose how much to sell and adds to cash)</button>
+    <br />
+     @Html.AntiForgeryToken()
     <button type="button" id="invokeAjaxHello">Hold (goes to next day without action)</button>
+    <br />
+     @Html.AntiForgeryToken()
     <button type="button" id="invokeAjaxHello">Quit (sells all, shows final result)</button>
+    <br />
 
 
 </div>
 
 @section Scripts
-{
-    <script type="text/javascript">$("#invokeAjaxHello").click(function() {
+    {
+    <script type="text/javascript">
+        $("#invokeData").click(function() {
             $.ajax({
                 type: "POST",
-                url: "/Index?handler=GetAjax",
-                data:{"name": " World!"},
+                url: "/Index?handler=OnPostGetDate",
                 contentType: 'application/x-www-form-urlencoded',
                 dataType: "json",
                 headers:
                 {
                     "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                 },
-                success: function( message ) {
+                success: function(message) {
+                    document.getElementById("result").innerHTML = message;
+                }
+            });
+
+        });
+
+        $("#invokeAjaxHello").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/Index?handler=GetAjax",
+                data: { "name": " World!" },
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: "json",
+                headers:
+                {
+                    "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                success: function(message) {
                     document.getElementById("result").innerHTML = message;
                 }
             });
@@ -56,14 +90,14 @@
             $.ajax({
                 type: "POST",
                 url: "/Index?handler=DoubleMoney",
-                data: {"description": "please", "value": 2},
+                data: { "description": "please", "value": 2 },
                 contentType: 'application/x-www-form-urlencoded',
                 dataType: "json",
                 headers:
                 {
                     "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                 },
-                success: function( message ) {
+                success: function(message) {
                     document.getElementById("result").innerHTML = message;
                 }
             });
@@ -71,35 +105,33 @@
         });</script>
 }
 
-<!-- 
-    Create dropdown menu
-    Create buttons for buy / sell / hold
-    Create way to choose random day
-    Create way to move forward in date
-    Create GUI for it to work with
--->
+    <!--
+        Create dropdown menu
+        Create buttons for buy / sell / hold
+        Create way to choose random day
+        Create way to move forward in date
+        Create GUI for it to work with
+    -->
+    <!--
+        This is the game page
+    -->
+    <!--
+        1. Create a dropdown menu for the ticker symbol
+        2. Create a variable to hold the chosen ticker
+        3. Create a variable to store the amount of cash they have left
+        4. Create a variable to store the amount of cash they have invested
+        5. Make a function that makes a
 
-<!--
-    This is the game page
--->
+        ticker variable
+        amount of shares variable
+        amount of cash variable
 
-<!--
-    1. Create a dropdown menu for the ticker symbol
-    2. Create a variable to hold the chosen ticker
-    3. Create a variable to store the amount of cash they have left
-    4. Create a variable to store the amount of cash they have invested
-    5. Make a function that makes a 
+        you choose the ticker
+        you query for how much it costs on the given day
+        and then they buy it, and it subtracts the money from cash and adds the shares
+        and then it shows them how much they have in cash, how much there shares are worth in current cost, then they can stay, buy, sell
+        if they buy, subtract from cash add to shares
+        if they sell, add to the cash and subtract the amount of shares, multiply by current stock price
 
-    ticker variable
-    amount of shares variable
-    amount of cash variable
 
-    you choose the ticker
-    you query for how much it costs on the given day
-    and then they buy it, and it subtracts the money from cash and adds the shares
-    and then it shows them how much they have in cash, how much there shares are worth in current cost, then they can stay, buy, sell
-    if they buy, subtract from cash add to shares
-    if they sell, add to the cash and subtract the amount of shares, multiply by current stock price
-    
-
--->
+    -->

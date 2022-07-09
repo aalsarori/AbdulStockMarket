@@ -30,7 +30,7 @@ public class IndexModel : PageModel
         m_Ticker = "AAPL";
 
         // Call the random date in the last 6 months function
-        m_Date = RandomDate;
+        m_Date = OnPostRandomDate;
     }
 
     public IActionResult OnPostGetAjax(string name)
@@ -51,40 +51,40 @@ public class IndexModel : PageModel
 
     }
 
-    public IActionResult GetCash
+    public IActionResult OnPostGetCash
     {
         get
         {
-            return new JsonResult(m_Cash.ToString());
+            return new JsonResult(m_Cash);
         }
     }
 
-    public IActionResult GetStocks
+    public IActionResult OnPostGetStocks
     {
         get
         {
-            return new JsonResult(m_Stocks.ToString());
+            return new JsonResult(m_Stocks);
         }
     }
 
-    public IActionResult GetTicker
+    public IActionResult OnPostGetTicker
     {
         get
         {
-            return new JsonResult(m_Ticker.ToString());
+            return new JsonResult(m_Ticker);
         }
     }
 
-    public IActionResult GetDate
+    public IActionResult OnPostGetDate
     {
         get
         {
-            return new JsonResult(m_Date.ToString());
+            return new JsonResult("Date: " + m_Date);
         }
     }
 
     // Create a function that queries the database for the current price at the current day
-    public IActionResult CurrentTickerPrice
+    public IActionResult OnPostCurrentTickerPrice
     {
         get
         {
@@ -105,12 +105,12 @@ public class IndexModel : PageModel
             // Close the connection
             connection.Close();
 
-            return new JsonResult(tickerPrice.ToString());
+            return new JsonResult(tickerPrice);
         }
     }
 
     // Create function that sells a certain amount of stock and adds that money for the price of that day to cash but takes away the shares
-    public IActionResult SellStocks(string amountSold)
+    public IActionResult OnPostSellStocks(string amountSold)
     {
         double tickerPrice = 0;
 
@@ -148,11 +148,11 @@ public class IndexModel : PageModel
         }
 
         // Should I return anything?
-        return new JsonResult(tickerPrice.ToString());
+        return new JsonResult(tickerPrice);
     }
 
     // Create function that buys a certain amount of stock based on an amount of cash and adds it to shares but takes it from cash
-    public IActionResult BuyStocks(string amountBuy)
+    public IActionResult OnPostBuyStocks(string amountBuy)
     {
         double tickerPrice = 0;
 
@@ -188,11 +188,11 @@ public class IndexModel : PageModel
         m_Stocks += totalShares;
 
         // Should I return something else?
-        return new JsonResult(tickerPrice.ToString());
+        return new JsonResult(tickerPrice);
     }
 
     // Sell everything and close the game function
-    public IActionResult Quit
+    public IActionResult OnPostQuit
     {
         get
         {
@@ -221,13 +221,13 @@ public class IndexModel : PageModel
             m_Cash += totalSold;
 
             // Should I return anything?
-            return new JsonResult(tickerPrice.ToString());
+            return new JsonResult(tickerPrice);
         }
     }
 
     // Choose a random date in the last 6 months function
     // TAN
-    public string RandomDate
+    public string OnPostRandomDate
     {
         get
         {
@@ -245,7 +245,7 @@ public class IndexModel : PageModel
 
     // Move the date forward by 1 week or 1 month or so function
     // TAN
-    public string MoveForward(string date)
+    public string OnPostMoveForward(string date)
     {
         string randomDate = "";
 

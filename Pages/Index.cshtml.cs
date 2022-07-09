@@ -47,34 +47,37 @@ public class IndexModel : PageModel
 
     }
 
-    public IActionResult OnPostGetCash
+    public IActionResult OnPostGetCash(string name)
     {
-        get
         {
-            return new JsonResult(m_Cash);
+            string returning = "Cash: $" + m_Cash.ToString();
+            return new JsonResult(returning);
         }
     }
 
-    public IActionResult OnPostGetStocks
+    public IActionResult OnPostGetStocks(string name)
     {
-        get
         {
-            return new JsonResult(m_Stocks);
+            string returning = "Shares: " + m_Stocks.ToString();
+            return new JsonResult(returning);
         }
     }
 
-    public IActionResult OnPostGetTicker
+    public IActionResult OnPostGetTicker(string name)
     {
-        get
         {
-            return new JsonResult(m_Ticker);
+            m_Ticker = name;
+            string returning = "Ticker: " + m_Ticker;
+            return new JsonResult(returning);
         }
     }
 
     public IActionResult OnPostGetDate(string name)
     {
-        string returning = "Date: " + m_Date;
-        return new JsonResult(returning);
+        {
+            string returning = "Date: " + m_Date;
+            return new JsonResult(returning);
+        }
     }
 
     // Create a function that queries the database for the current price at the current day

@@ -4,34 +4,20 @@
     ViewData["Title"] = "Home page";
 }
 
-@Html.AntiForgeryToken()
-<button type="button" id="invokeAjaxHello">Run Hello</button>
-@Html.AntiForgeryToken()
-<button type="button" id="doubleYourMoney">Attempt to double your money</button>
-
 <div class="text-center">
-    <h1 class="display-4">Welcome to B(l)ra(ck)d Rock Finances</h1>
-
-    <p>Cash: </p>
-    <p>Shares: </p>
-
-    <form action="/action_page.php">
-        <label for="cars">Choose Ticker:</label>
-        <select name="cars" id="cars">
-            <option value="volvo">Volvo</option>
-            <option value="saab">Saab</option>
-            <option value="opel">Opel</option>
-            <option value="APPL">Apple (APPL)</option>
-        </select>
-        <br><br>
-        <input type="submit" value="Submit">
-    </form>
-
+    <h1 class="display-4">Welcome to Brad Rock</h1>
+    
     <br />
+    <div id="date">---</div>
+    <div id="cash">---</div>
+    <div id="stocks">---</div>
+    <div id="ticker">---</div>
+    <br />
+
+    <input type="text" id="tickerVariable" name="tickerName" value="AAPL"/>
+
      @Html.AntiForgeryToken()
-    <button type="button" id="invokeData">(TEST)</button>
-    <br />
-    <div id="result">---</div>
+    <button type="button" id="invokeData">Choose Stock</button>
     <br />
      @Html.AntiForgeryToken()
     <button type="button" id="invokeAjaxHello">Buy (lets you choose how much to buy and adds to shares)</button>
@@ -53,9 +39,41 @@
     {
     <script type="text/javascript">
         $("#invokeData").click(function() {
+            var tickerChosen = $('#tickerVariable').val();
+
             $.ajax({
                 type: "POST",
                 url: "/Index?handler=GetDate",
+                data: { "name": " World!"},
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: "json",
+                headers:
+                {
+                    "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                success: function(message) {
+                    document.getElementById("date").innerHTML = message;
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "/Index?handler=GetTicker",
+                data: {"name":tickerChosen},
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: "json",
+                headers:
+                {
+                    "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                success: function(message) {
+                    document.getElementById("ticker").innerHTML = message;
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "/Index?handler=GetStocks",
                 data: { "name": " World!" },
                 contentType: 'application/x-www-form-urlencoded',
                 dataType: "json",
@@ -64,10 +82,24 @@
                     "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                 },
                 success: function(message) {
-                    document.getElementById("result").innerHTML = message;
+                    document.getElementById("stocks").innerHTML = message;
                 }
             });
 
+            $.ajax({
+                type: "POST",
+                url: "/Index?handler=GetCash",
+                data: { "name": " World!" },
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: "json",
+                headers:
+                {
+                    "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                success: function(message) {
+                    document.getElementById("cash").innerHTML = message;
+                }
+            });
         });
 
         $("#invokeAjaxHello").click(function() {

@@ -107,11 +107,23 @@ public class IndexModel : PageModel
         // Assign value
 
         // Divide the amount sold by the ticker price, and subtract that from the total shares
+        double totalSold = 0;
+
+        if(amountSold != null)
+        {
+            totalSold = tickerPrice * double.Parse(amountSold);
+        }
+
 
         // Add that amount sold to the total cash
+        m_Cash += totalSold;
 
-        // Should I return something else?
+        if (amountSold != null)
+        {
+            m_Stocks -= double.Parse(amountSold);
+        }
 
+        // Should I return anything?
         return tickerPrice.ToString();
     }
 
@@ -127,11 +139,22 @@ public class IndexModel : PageModel
         // Assign value
 
         // Divide the amount to buy by the ticker price, and add that to the total shares
+        double totalShares = 0;
+
+        if(amountBuy != null)
+        {
+            totalShares = tickerPrice / double.Parse(amountBuy);
+        }
 
         // Subtract that amount sold to the total cash
+        if (amountBuy != null)
+        {
+            m_Cash -= double.Parse(amountBuy);
+        }
+
+        m_Stocks += totalShares;
 
         // Should I return something else?
-
         return tickerPrice.ToString();
     }
 
@@ -147,7 +170,7 @@ public class IndexModel : PageModel
 
             // Return only the day month and year (2022-12-01)
 
-            DateTime date = DateTime.Now.ToString("yyyy-MM-dd");
+            //DateTime date = DateTime.Now.ToString("yyyy-MM-dd");
            
             return randomDate;
         }
@@ -157,7 +180,9 @@ public class IndexModel : PageModel
     // TAN
     public string MoveForward(string date)
     {
-        string randomDate = DateTime.Parse(date);
+        string randomDate = "";
+
+        //string randomDate = DateTime.Parse(date);
             
         // Find a random date in the last 6 months
         // DateTime.Parse() DateTime.Now DateTime.AddWeeks

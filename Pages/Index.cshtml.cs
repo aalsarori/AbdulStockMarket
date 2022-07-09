@@ -49,40 +49,40 @@ public class IndexModel : PageModel
 
     }
 
-    public string GetCash
+    public IActionResult GetCash
     {
         get
         {
-            return m_Cash.ToString();
+            return new JsonResult(m_Cash.ToString());
         }
     }
 
-    public string GetStocks
+    public IActionResult GetStocks
     {
         get
         {
-            return m_Stocks.ToString();
+            return new JsonResult(m_Stocks.ToString());
         }
     }
 
-    public string GetTicker
+    public IActionResult GetTicker
     {
         get
         {
-            return m_Ticker;
+            return new JsonResult(m_Ticker.ToString());
         }
     }
 
-    public string GetDate
+    public IActionResult GetDate
     {
         get
         {
-            return m_Date;
+            return new JsonResult(m_Date.ToString());
         }
     }
 
     // Create a function that queries the database for the current price at the current day
-    public string CurrentTickerPrice(string tickerName)
+    public IActionResult CurrentTickerPrice(string tickerName)
     {
         double tickerPrice = 0;
 
@@ -92,11 +92,11 @@ public class IndexModel : PageModel
 
         // Assign value
 
-        return tickerPrice.ToString();
+        return new JsonResult(tickerPrice.ToString());
     }
 
     // Create function that sells a certain amount of stock and adds that money for the price of that day to cash but takes away the shares
-    public string SellStocks(string tickerName, string amountSold)
+    public IActionResult SellStocks(string tickerName, string amountSold)
     {
         double tickerPrice = 0;
 
@@ -124,11 +124,11 @@ public class IndexModel : PageModel
         }
 
         // Should I return anything?
-        return tickerPrice.ToString();
+        return new JsonResult(tickerPrice.ToString());
     }
 
     // Create function that buys a certain amount of stock based on an amount of cash and adds it to shares but takes it from cash
-    public string BuyStocks(string tickerName, string amountBuy)
+    public IActionResult BuyStocks(string tickerName, string amountBuy)
     {
         double tickerPrice = 0;
 
@@ -155,7 +155,29 @@ public class IndexModel : PageModel
         m_Stocks += totalShares;
 
         // Should I return something else?
-        return tickerPrice.ToString();
+        return new JsonResult(tickerPrice.ToString());
+    }
+
+    // Sell everything and close the game function
+    public IActionResult Quit(string tickerName)
+    {
+        double tickerPrice = 0;
+
+        string sql = "SELECT TICKER PRICE FROM TABLE WHERE DATE ";
+
+        // Run query
+
+        // Assign value
+
+        // Divide the amount sold by the ticker price, and subtract that from the total shares
+        double totalSold = 0;
+
+        totalSold = tickerPrice * m_Stocks;
+
+        m_Cash += totalSold;
+
+        // Should I return anything?
+        return new JsonResult(tickerPrice.ToString());
     }
 
     // Choose a random date in the last 6 months function
@@ -190,9 +212,6 @@ public class IndexModel : PageModel
            
         return randomDate;
     }
-    
-
-    // Sell everything and close the game function
 
     public void OnGet()
     {

@@ -157,6 +157,7 @@
                     "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                 },
                 success: function(message) {
+                    // Do the logic here instead of in the .cs, return the ticker pricec though, and have global variables for Cash, Ticker, etc.. and actually return the name instead of the public variable in the .cs file
                     document.getElementById("lastaction").innerHTML = message;
                 }
             });

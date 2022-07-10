@@ -155,7 +155,7 @@ public class IndexModel : PageModel
     // Create function that buys a certain amount of stock based on an amount of cash and adds it to shares but takes it from cash
     public IActionResult OnPostBuyStocks(string amountBuy)
     {
-        double tickerPrice = 0;
+        decimal tickerPrice = 0;
 
         // Run query
         string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
@@ -167,7 +167,7 @@ public class IndexModel : PageModel
         SqlCommand db = new SqlCommand(sql, connection);
 
         // Assign value
-        tickerPrice = (double)db.ExecuteScalar();
+        tickerPrice = (decimal)db.ExecuteScalar();
 
         // Close the connection
         connection.Close();
@@ -177,7 +177,7 @@ public class IndexModel : PageModel
 
         if (amountBuy != null)
         {
-            totalShares = tickerPrice / double.Parse(amountBuy);
+            totalShares = double.Parse(tickerPrice.ToString()) / double.Parse(amountBuy);
         }
 
         // Subtract that amount sold to the total cash

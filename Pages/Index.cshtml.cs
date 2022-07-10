@@ -66,7 +66,11 @@ public class IndexModel : PageModel
     public IActionResult OnPostGetTicker(string name)
     {
         {
-            m_Ticker = name;
+            if(name != null && name != "")
+            {
+                m_Ticker = name;
+            }
+
             string returning = "Ticker: " + m_Ticker;
             return new JsonResult(returning);
         }
@@ -185,7 +189,7 @@ public class IndexModel : PageModel
         m_Stocks += totalShares;
 
         // Should I return something else?
-        return new JsonResult(tickerPrice);
+        return new JsonResult("Bought");
     }
 
     // Sell everything and close the game function

@@ -8,20 +8,25 @@
     <h1 class="display-4">Welcome to Brad Rock</h1>
     
     <br />
+    <div id="lastaction">---</div>
     <div id="date">---</div>
     <div id="cash">---</div>
     <div id="stocks">---</div>
     <div id="ticker">---</div>
     <br />
 
-    <input type="text" id="tickerVariable" name="tickerName" value="AAPL"/>
-
      @Html.AntiForgeryToken()
+    <input type="text" id="tickerVariable" name="tickerName" value="AAPL"/>
     <button type="button" id="invokeData">Choose Stock</button>
     <br />
-     @Html.AntiForgeryToken()
-    <button type="button" id="invokeAjaxHello">Buy (lets you choose how much to buy and adds to shares)</button>
     <br />
+
+     @Html.AntiForgeryToken()
+    <input type="text" id="buyVariable" name="buyAmount" placeholder="Enter amount of cash to spend..."/>
+    <button type="button" id="invokeBuy">Buy</button>
+    <br />
+    <br />
+
      @Html.AntiForgeryToken()
     <button type="button" id="invokeAjaxHello">Sell (lets you choose how much to sell and adds to cash)</button>
     <br />
@@ -133,6 +138,86 @@
                 },
                 success: function(message) {
                     document.getElementById("result").innerHTML = message;
+                }
+            });
+        });
+
+        $("#invokeBuy").click(function() {
+           var amountMoney = $('#buyVariable').val();
+           var tickerChosen = $('#tickerVariable').val();
+
+            $.ajax({
+                type: "POST",
+                url: "/Index?handler=BuyStocks",
+                data: {"amountBuy": amountMoney},
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: "json",
+                headers:
+                {
+                    "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                success: function(message) {
+                    document.getElementById("lastaction").innerHTML = message;
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "/Index?handler=GetDate",
+                data: { "name": " World!"},
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: "json",
+                headers:
+                {
+                    "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                success: function(message) {
+                    document.getElementById("date").innerHTML = message;
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "/Index?handler=GetTicker",
+                data: {"name":tickerChosen},
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: "json",
+                headers:
+                {
+                    "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                success: function(message) {
+                    document.getElementById("ticker").innerHTML = message;
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "/Index?handler=GetStocks",
+                data: { "name": " World!" },
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: "json",
+                headers:
+                {
+                    "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                success: function(message) {
+                    document.getElementById("stocks").innerHTML = message;
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "/Index?handler=GetCash",
+                data: { "name": " World!" },
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: "json",
+                headers:
+                {
+                    "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                success: function(message) {
+                    document.getElementById("cash").innerHTML = message;
                 }
             });
         });

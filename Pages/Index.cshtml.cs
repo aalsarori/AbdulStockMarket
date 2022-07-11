@@ -76,6 +76,23 @@ public class IndexModel : PageModel
         }
     }
 
+    public string StartProject(string ticker)
+    {
+        // Clear the database
+        string clear = "DELETE FROM Holding";
+
+        // Run query
+        string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
+        SqlConnection connection = new SqlConnection(connectionString);
+        connection.Open();
+        SqlCommand db = new SqlCommand(clear, connection);
+        // Close the connection
+        connection.Close();
+
+        // Set the base values with the ticker
+        return "";
+    }
+
     public IActionResult OnPostGetDate(string name)
     {
         {

@@ -45,6 +45,21 @@
     <script type="text/javascript">
         $("#invokeData").click(function() {
             var tickerChosen = $('#tickerVariable').val();
+            
+            $.ajax({
+                type: "POST",
+                url: "/Index?handler=GetTicker",
+                data: {"name":tickerChosen},
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: "json",
+                headers:
+                {
+                    "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                success: function(message) {
+                    document.getElementById("ticker").innerHTML = message;
+                }
+            });
 
             $.ajax({
                 type: "POST",
@@ -58,21 +73,6 @@
                 },
                 success: function(message) {
                     document.getElementById("date").innerHTML = message;
-                }
-            });
-
-            $.ajax({
-                type: "POST",
-                url: "/Index?handler=GetTicker",
-                data: {"name":tickerChosen},
-                contentType: 'application/x-www-form-urlencoded',
-                dataType: "json",
-                headers:
-                {
-                    "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
-                },
-                success: function(message) {
-                    document.getElementById("ticker").innerHTML = message;
                 }
             });
 

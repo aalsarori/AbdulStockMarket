@@ -84,6 +84,31 @@ public class IndexModel : PageModel
         }
     }
 
+    public IActionResult OnPostGetInvestment(string name)
+    {
+        decimal tickerPrice = 0;
+
+        // Run query
+        string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
+        SqlConnection connection = new SqlConnection(connectionString);
+        connection.Open();
+
+        DateTime tempDate = DateTime.Parse(m_Date);
+        string sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", m_Ticker, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
+        SqlCommand db = new SqlCommand(sql, connection);
+
+        // Assign value
+        tickerPrice = (decimal)db.ExecuteScalar();
+
+        // Close the connection
+        connection.Close();
+
+        double investment = m_Stocks * double.Parse(tickerPrice.ToString());
+
+        string returning = "Investment Amount: $" + Math.Round(investment, 2);
+        return new JsonResult(returning);
+    }
+
     // Create a function that queries the database for the current price at the current day
     public IActionResult OnPostCurrentTickerPrice
     {

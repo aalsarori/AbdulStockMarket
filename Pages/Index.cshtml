@@ -8,11 +8,11 @@
     <h1 class="display-4">Welcome to Brad Rock</h1>
     
     <br />
-    <div id="lastaction">---</div>
+    <div id="ticker">---</div>
     <div id="date">---</div>
     <div id="cash">---</div>
     <div id="stocks">---</div>
-    <div id="ticker">---</div>
+    <div id="investment">---</div>
     <br />
 
      @Html.AntiForgeryToken()
@@ -103,6 +103,21 @@
                 },
                 success: function(message) {
                     document.getElementById("cash").innerHTML = message;
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "/Index?handler=GetInvestment",
+                data: { "name": " World!" },
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: "json",
+                headers:
+                {
+                    "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                success: function(message) {
+                    document.getElementById("investment").innerHTML = message;
                 }
             });
         });

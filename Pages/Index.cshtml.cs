@@ -50,6 +50,17 @@ public class IndexModel : PageModel
     public IActionResult OnPostGetCash(string name)
     {
         {
+            // Run query
+            string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
+            SqlConnection connection = new SqlConnection(connectionString);
+            connection.Open();
+            DateTime tempDate = DateTime.Parse(m_Date);
+            string sql = "SELECT AmtOfCash FROM Holding";
+            SqlCommand db = new SqlCommand(sql, connection);
+            m_Cash = (double)db.ExecuteScalar();
+            connection.Close();
+
+            // Return
             string returning = "Cash: $" + m_Cash.ToString();
             return new JsonResult(returning);
         }
@@ -58,6 +69,17 @@ public class IndexModel : PageModel
     public IActionResult OnPostGetStocks(string name)
     {
         {
+            // Run query
+            string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
+            SqlConnection connection = new SqlConnection(connectionString);
+            connection.Open();
+            DateTime tempDate = DateTime.Parse(m_Date);
+            string sql = "SELECT AmtofShares FROM Holding";
+            SqlCommand db = new SqlCommand(sql, connection);
+            m_Stocks = (double)db.ExecuteScalar();
+            connection.Close();
+
+            // Return
             string returning = "Shares: " + m_Stocks.ToString();
             return new JsonResult(returning);
         }
@@ -66,7 +88,9 @@ public class IndexModel : PageModel
     public IActionResult OnPostGetTicker(string name)
     {
         {
-            if(name != null && name != "")
+            string returned = StartProject(name);
+
+            if (name != null && name != "")
             {
                 m_Ticker = name;
             }
@@ -91,7 +115,7 @@ public class IndexModel : PageModel
         string randomDate = OnPostRandomDate;
 
         // Set the base values with the ticker
-        string insert = string.Format("INSERT INTO Holding (TickerName, AmtOfCash, AmtOfShares, StockDate) VALUES ('{0}', 10000, 0, '{1}')", ticker, randomDate);
+        string insert = string.Format("INSERT INTO Holding (TickerName, AmtOfCash, AmtofShares, StockDate) VALUES ('{0}', 10000, 0, '{1}')", ticker, randomDate);
         db = new SqlCommand(insert, connection);
         db.ExecuteNonQuery();
 
@@ -104,6 +128,17 @@ public class IndexModel : PageModel
     public IActionResult OnPostGetDate(string name)
     {
         {
+            // Run query
+            string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
+            SqlConnection connection = new SqlConnection(connectionString);
+            connection.Open();
+            DateTime tempDate = DateTime.Parse(m_Date);
+            string sql = "SELECT StockDate FROM Holding";
+            SqlCommand db = new SqlCommand(sql, connection);
+            m_Date = (string)db.ExecuteScalar();
+            connection.Close();
+
+            // Return
             string returning = "Date: " + m_Date;
             return new JsonResult(returning);
         }

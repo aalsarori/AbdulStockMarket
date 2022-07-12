@@ -94,7 +94,6 @@ public class IndexModel : PageModel
         // Set the base values with the ticker
         string insert = "INSERT INTO Holding (TickerName, AmtOfCash, AmtOfShares, StockDate) VALUES ('{0}', 10000, 0, '{1}')";
 
-);
         return "";
     }
 

@@ -92,7 +92,7 @@ public class IndexModel : PageModel
         string randomDate = OnPostRandomDate;
 
         // Set the base values with the ticker
-        string insert = "INSERT INTO Holding (TickerName, AmtOfCash, AmtOfShares, StockDate) VALUES ('{0}', 10000, 0, '{1}')";
+        string insert = string.Format("INSERT INTO Holding (TickerName, AmtOfCash, AmtOfShares, StockDate) VALUES ('{0}', 10000, 0, '{1}')", ticker, randomDate);
 
         return "";
     }

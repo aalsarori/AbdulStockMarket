@@ -66,7 +66,7 @@ public class IndexModel : PageModel
     public IActionResult OnPostGetTicker(string name)
     {
         {
-            if(name != null && name != "")
+            if (name != null && name != "")
             {
                 m_Ticker = name;
             }
@@ -226,37 +226,20 @@ public class IndexModel : PageModel
         }
     }
 
-    // Choose a random date in the last 6 months function
-    // TAN
     public string OnPostRandomDate
     {
         get
         {
-            string randomDate = "2022-05-02";
+            string randomDate = "";
+
+            Random gen = new Random();
 
             // Find a random date in the last 6 months
-
-            // Return only the day month and year (2022-12-01)
-
-            //DateTime date = DateTime.Now.ToString("yyyy-MM-dd");
-
-            return randomDate;
+            DateTime start = new DateTime(2022, 1, 7);
+            DateTime end = new DateTime(2022, 7, 7);
+            int range = (end - start).Days;
+            return randomDate = start.AddDays(gen.Next(range)).ToString("yyyy-MM-dd");
         }
-    }
-
-    // Move the date forward by 1 week or 1 month or so function
-    // TAN
-    public IActionResult OnPostMoveForward(string date)
-    {
-        string randomDate = "";
-
-        //string randomDate = DateTime.Parse(date);
-
-        // Find a random date in the last 6 months
-        // DateTime.Parse() DateTime.Now DateTime.AddWeeks
-        // Move forward a week
-
-        return new JsonResult(randomDate);
     }
 
     public void OnGet()

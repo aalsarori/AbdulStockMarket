@@ -393,15 +393,15 @@ public class IndexModel : PageModel
     {
         get
         {
-            string randomDate = "2022-05-02";
+            string randomDate = "";
+
+            Random gen = new Random();
 
             // Find a random date in the last 6 months
-
-            // Return only the day month and year (2022-12-01)
-
-            //DateTime date = DateTime.Now.ToString("yyyy-MM-dd");
-
-            return randomDate;
+            DateTime start = new DateTime(2022, 1, 7);
+            DateTime end = new DateTime(2022, 7, 7);
+            int range = (end - start).Days;
+            return randomDate = start.AddDays(gen.Next(range)).ToString("yyyy-MM-dd");
         }
     }
 

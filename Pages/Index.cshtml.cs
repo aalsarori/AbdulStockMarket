@@ -137,7 +137,9 @@ public class IndexModel : PageModel
 
             string sql = "SELECT StockDate FROM Holding";
             SqlCommand db = new SqlCommand(sql, connection);
-            m_Date = ((DateTime)db.ExecuteScalar()).ToString("yyyy-MM-dd");
+            DateTime date = (DateTime)db.ExecuteScalar();
+
+            m_Date = date.ToString("yyyy-MM-dd");
             connection.Close();
 
             // Return

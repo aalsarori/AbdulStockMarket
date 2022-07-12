@@ -343,6 +343,7 @@ public class IndexModel : PageModel
         }
 
 
+
         // Should I return something else?
         return new JsonResult("Bought");
     }

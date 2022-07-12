@@ -86,13 +86,17 @@ public class IndexModel : PageModel
         SqlConnection connection = new SqlConnection(connectionString);
         connection.Open();
         SqlCommand db = new SqlCommand(clear, connection);
-        // Close the connection
-        connection.Close();
+        db.ExecuteNonQuery();
 
         string randomDate = OnPostRandomDate;
 
         // Set the base values with the ticker
         string insert = string.Format("INSERT INTO Holding (TickerName, AmtOfCash, AmtOfShares, StockDate) VALUES ('{0}', 10000, 0, '{1}')", ticker, randomDate);
+        db = new SqlCommand(insert, connection);
+        db.ExecuteNonQuery();
+
+        // Close the connection
+        connection.Close();
 
         return "";
     }

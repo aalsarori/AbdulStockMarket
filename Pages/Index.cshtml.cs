@@ -30,10 +30,14 @@ public class IndexModel : PageModel
             string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
             SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
-            DateTime tempDate = DateTime.Parse(m_Date);
+
             string sql = "SELECT AmtOfCash FROM Holding";
             SqlCommand db = new SqlCommand(sql, connection);
-            m_Cash = (double)db.ExecuteScalar();
+            decimal decimalHolder = 0;
+            decimalHolder = (decimal)db.ExecuteScalar();
+
+            m_Cash = Double.Parse(decimalHolder.ToString());
+
             connection.Close();
 
             // Return
@@ -49,10 +53,13 @@ public class IndexModel : PageModel
             string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
             SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
-            DateTime tempDate = DateTime.Parse(m_Date);
+
             string sql = "SELECT AmtofShares FROM Holding";
             SqlCommand db = new SqlCommand(sql, connection);
-            m_Stocks = (double)db.ExecuteScalar();
+            decimal decimalHolder = 0;
+            decimalHolder = (decimal)db.ExecuteScalar();
+
+            m_Stocks = Double.Parse(decimalHolder.ToString());
             connection.Close();
 
             // Return
@@ -62,6 +69,25 @@ public class IndexModel : PageModel
     }
 
     public IActionResult OnPostGetTicker(string name)
+    {
+        {
+            // Run query
+            string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
+            SqlConnection connection = new SqlConnection(connectionString);
+            connection.Open();
+
+            string sql = "SELECT TickerName FROM Holding";
+            SqlCommand db = new SqlCommand(sql, connection);
+            m_Ticker = (string)db.ExecuteScalar();
+
+            connection.Close();
+
+            string returning = "Ticker: " + m_Ticker;
+            return new JsonResult(returning);
+        }
+    }
+
+    public IActionResult OnPostSetTicker(string name)
     {
         {
             string returned = StartProject(name);
@@ -108,10 +134,10 @@ public class IndexModel : PageModel
             string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
             SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
-            DateTime tempDate = DateTime.Parse(m_Date);
+
             string sql = "SELECT StockDate FROM Holding";
             SqlCommand db = new SqlCommand(sql, connection);
-            m_Date = (string)db.ExecuteScalar();
+            m_Date = ((DateTime)db.ExecuteScalar()).ToString("yyyy-MM-dd");
             connection.Close();
 
             // Return
@@ -129,9 +155,18 @@ public class IndexModel : PageModel
         SqlConnection connection = new SqlConnection(connectionString);
         connection.Open();
 
-        DateTime tempDate = DateTime.Parse(m_Date);
-        string sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", m_Ticker, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
+        string sql = string.Format("SELECT TickerName FROM Holding");
         SqlCommand db = new SqlCommand(sql, connection);
+        m_Ticker = (string)db.ExecuteScalar();
+
+        sql = string.Format("SELECT StockDate FROM Holding");
+        db = new SqlCommand(sql, connection);
+        DateTime date = (DateTime)db.ExecuteScalar();
+        m_Date = date.ToString("yyyy-MM-dd");
+        DateTime tempDate = DateTime.Parse(m_Date);
+        
+        sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", m_Ticker, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
+        db = new SqlCommand(sql, connection);
 
         // Assign value
         tickerPrice = (decimal)db.ExecuteScalar();
@@ -181,9 +216,17 @@ public class IndexModel : PageModel
         SqlConnection connection = new SqlConnection(connectionString);
         connection.Open();
 
-        DateTime tempDate = DateTime.Parse(m_Date);
-        string sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", m_Ticker, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
+        string sql = string.Format("SELECT TickerName FROM Holding");
         SqlCommand db = new SqlCommand(sql, connection);
+        m_Ticker = (string)db.ExecuteScalar();
+
+        sql = string.Format("SELECT StockDate FROM Holding");
+        db = new SqlCommand(sql, connection);
+        m_Date = (string)db.ExecuteScalar();
+        DateTime tempDate = DateTime.Parse(m_Date);
+
+        sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", m_Ticker, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
+        db = new SqlCommand(sql, connection);
 
         // Assign value
         tickerPrice = (double)db.ExecuteScalar();
@@ -223,9 +266,18 @@ public class IndexModel : PageModel
         SqlConnection connection = new SqlConnection(connectionString);
         connection.Open();
 
-        DateTime tempDate = DateTime.Parse(m_Date);
-        string sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", m_Ticker, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
+        string sql = string.Format("SELECT TickerName FROM Holding");
         SqlCommand db = new SqlCommand(sql, connection);
+        m_Ticker = (string)db.ExecuteScalar();
+
+        sql = string.Format("SELECT StockDate FROM Holding");
+        db = new SqlCommand(sql, connection);
+        DateTime date = (DateTime)db.ExecuteScalar();
+        m_Date = date.ToString("yyyy-MM-dd");
+        DateTime tempDate = DateTime.Parse(m_Date);
+
+        sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", m_Ticker, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
+        db = new SqlCommand(sql, connection);
 
         // Assign value
         tickerPrice = (decimal)db.ExecuteScalar();
@@ -265,9 +317,17 @@ public class IndexModel : PageModel
             SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
 
-            DateTime tempDate = DateTime.Parse(m_Date);
-            string sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", m_Ticker, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
+            string sql = string.Format("SELECT TickerName FROM Holding");
             SqlCommand db = new SqlCommand(sql, connection);
+            m_Ticker = (string)db.ExecuteScalar();
+
+            sql = string.Format("SELECT StockDate FROM Holding");
+            db = new SqlCommand(sql, connection);
+            m_Date = (string)db.ExecuteScalar();
+            DateTime tempDate = DateTime.Parse(m_Date);
+            
+            sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", m_Ticker, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
+            db = new SqlCommand(sql, connection);
 
             // Assign value
             tickerPrice = (double)db.ExecuteScalar();

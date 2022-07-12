@@ -5,14 +5,14 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome to Brad Rock</h1>
+    <h1 class="display-4">BradRock, Inc.</h1>
     
     <br />
-    <div id="lastaction">---</div>
+    <div id="ticker">---</div>
     <div id="date">---</div>
     <div id="cash">---</div>
     <div id="stocks">---</div>
-    <div id="ticker">---</div>
+    <div id="investment">---</div>
     <br />
 
      @Html.AntiForgeryToken()
@@ -45,6 +45,21 @@
     <script type="text/javascript">
         $("#invokeData").click(function() {
             var tickerChosen = $('#tickerVariable').val();
+            
+            $.ajax({
+                type: "POST",
+                url: "/Index?handler=SetTicker",
+                data: {"name":tickerChosen},
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: "json",
+                headers:
+                {
+                    "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                success: function(message) {
+                    document.getElementById("ticker").innerHTML = message;
+                }
+            });
 
             $.ajax({
                 type: "POST",
@@ -58,21 +73,6 @@
                 },
                 success: function(message) {
                     document.getElementById("date").innerHTML = message;
-                }
-            });
-
-            $.ajax({
-                type: "POST",
-                url: "/Index?handler=GetTicker",
-                data: {"name":tickerChosen},
-                contentType: 'application/x-www-form-urlencoded',
-                dataType: "json",
-                headers:
-                {
-                    "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
-                },
-                success: function(message) {
-                    document.getElementById("ticker").innerHTML = message;
                 }
             });
 
@@ -105,12 +105,10 @@
                     document.getElementById("cash").innerHTML = message;
                 }
             });
-        });
 
-        $("#invokeAjaxHello").click(function() {
             $.ajax({
                 type: "POST",
-                url: "/Index?handler=GetAjax",
+                url: "/Index?handler=GetInvestment",
                 data: { "name": " World!" },
                 contentType: 'application/x-www-form-urlencoded',
                 dataType: "json",
@@ -119,25 +117,7 @@
                     "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                 },
                 success: function(message) {
-                    document.getElementById("result").innerHTML = message;
-                }
-            });
-
-        });
-
-        $("#doubleYourMoney").click(function() {
-            $.ajax({
-                type: "POST",
-                url: "/Index?handler=DoubleMoney",
-                data: { "description": "please", "value": 2 },
-                contentType: 'application/x-www-form-urlencoded',
-                dataType: "json",
-                headers:
-                {
-                    "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
-                },
-                success: function(message) {
-                    document.getElementById("result").innerHTML = message;
+                    document.getElementById("investment").innerHTML = message;
                 }
             });
         });
@@ -224,34 +204,3 @@
         });
         </script>
 }
-
-    <!--
-        Create dropdown menu
-        Create buttons for buy / sell / hold
-        Create way to choose random day
-        Create way to move forward in date
-        Create GUI for it to work with
-    -->
-    <!--
-        This is the game page
-    -->
-    <!--
-        1. Create a dropdown menu for the ticker symbol
-        2. Create a variable to hold the chosen ticker
-        3. Create a variable to store the amount of cash they have left
-        4. Create a variable to store the amount of cash they have invested
-        5. Make a function that makes a
-
-        ticker variable
-        amount of shares variable
-        amount of cash variable
-
-        you choose the ticker
-        you query for how much it costs on the given day
-        and then they buy it, and it subtracts the money from cash and adds the shares
-        and then it shows them how much they have in cash, how much there shares are worth in current cost, then they can stay, buy, sell
-        if they buy, subtract from cash add to shares
-        if they sell, add to the cash and subtract the amount of shares, multiply by current stock price
-
-
-    -->

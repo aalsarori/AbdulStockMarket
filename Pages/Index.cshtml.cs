@@ -290,16 +290,56 @@ public class IndexModel : PageModel
 
         if (amountBuy != null)
         {
+            // Get shares
+            connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
+            connection = new SqlConnection(connectionString);
+            connection.Open();
+
+            sql = "SELECT AmtofShares FROM Holding";
+            db = new SqlCommand(sql, connection);
+            decimal decimalHolder = 0;
+            decimalHolder = (decimal)db.ExecuteScalar();
+
+            m_Stocks = Double.Parse(decimalHolder.ToString());
+
             totalShares = double.Parse(tickerPrice.ToString()) / double.Parse(amountBuy);
+            m_Stocks += totalShares;
+
+            // Update it back
+            sql = String.Format("UPDATE Holding SET AmtofShares = {0}", m_Stocks);
+            db = new SqlCommand(sql, connection);
+            db.ExecuteNonQuery();
+
+            connection.Close();
         }
 
         // Subtract that amount sold to the total cash
         if (amountBuy != null)
         {
+            // Get shares
+            connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
+            connection = new SqlConnection(connectionString);
+            connection.Open();
+
+            sql = "SELECT AmtOfCash FROM Holding";
+            db = new SqlCommand(sql, connection);
+            decimal decimalHolder = 0;
+            decimalHolder = (decimal)db.ExecuteScalar();
+
+            m_Cash = Double.Parse(decimalHolder.ToString());
+
+            totalShares = double.Parse(tickerPrice.ToString()) / double.Parse(amountBuy);
             m_Cash -= double.Parse(amountBuy);
+
+            // Update it back
+            sql = String.Format("UPDATE Holding SET AmtOfCash = {0}", m_Cash);
+            db = new SqlCommand(sql, connection);
+            db.ExecuteNonQuery();
+
+            connection.Close();
+
         }
 
-        m_Stocks += totalShares;
 
         // Should I return something else?
         return new JsonResult("Bought");

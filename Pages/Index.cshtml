@@ -122,41 +122,6 @@
             });
         });
 
-        $("#invokeAjaxHello").click(function() {
-            $.ajax({
-                type: "POST",
-                url: "/Index?handler=GetAjax",
-                data: { "name": " World!" },
-                contentType: 'application/x-www-form-urlencoded',
-                dataType: "json",
-                headers:
-                {
-                    "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
-                },
-                success: function(message) {
-                    document.getElementById("result").innerHTML = message;
-                }
-            });
-
-        });
-
-        $("#doubleYourMoney").click(function() {
-            $.ajax({
-                type: "POST",
-                url: "/Index?handler=DoubleMoney",
-                data: { "description": "please", "value": 2 },
-                contentType: 'application/x-www-form-urlencoded',
-                dataType: "json",
-                headers:
-                {
-                    "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
-                },
-                success: function(message) {
-                    document.getElementById("result").innerHTML = message;
-                }
-            });
-        });
-
         $("#invokeBuy").click(function() {
            var amountMoney = $('#buyVariable').val();
            var tickerChosen = $('#tickerVariable').val();

@@ -20,31 +20,7 @@ public class IndexModel : PageModel
 
     public IndexModel()
     {
-        // Initialize
-        m_Cash = 10000;
-        m_Stocks = 0;
-        m_Ticker = "AAPL";
-
-        // Call the random date in the last 6 months function
-        m_Date = OnPostRandomDate.ToString();
-    }
-
-    public IActionResult OnPostGetAjax(string name)
-    {
-        return new JsonResult("Hello " + name);
-    }
-
-    public IActionResult OnPostDoubleMoney(string description, int value)
-    {
-        if (description == "please")
-        {
-            return new JsonResult("Money doubled to: " + (value * 2));
-        }
-        else
-        {
-            return new JsonResult("Money multipled to: " + (value * 10));
-        }
-
+        
     }
 
     public IActionResult OnPostGetCash(string name)

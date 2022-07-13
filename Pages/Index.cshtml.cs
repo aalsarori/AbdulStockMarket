@@ -412,13 +412,12 @@ public class IndexModel : PageModel
     }
 
     // Move the date forward by 1 week or 1 month or so function
-    // TAN
     public IActionResult OnPostMoveForward(string date)
     {
         DateTime limitDate = new DateTime(2022, 6, 28);
 
         // Make sure it doesn't go past our oldest date (July 6) (but maybe before) 
-        if (DateTime.Parse(date) < limitDate)
+        if (DateTime.Parse(date) = limitDate)
         {
             // Move forward a week
             date = DateTime.Parse(date).AddDays(7).ToString("yyyy-MM-dd");
@@ -427,6 +426,26 @@ public class IndexModel : PageModel
         else 
         {
             return "cannot go forward for another week";
+        }
+    }
+
+    // Move the date forward by 1 day
+    public IActionResult OnPost1DayMoveForward(string date)
+    {
+        DateTime limitDate = new DateTime(2022, 6, 28);
+
+        if (DateTime.Parse(date) = limitDate)
+        {
+            // Move forward a day
+            if (DateTime.Parse(date).DayOfWeek.ToString() == "Friday")
+            {
+                randomDate = DateTime.Parse(date).AddDays(3).ToString("yyyy-MM-dd");
+            }
+            return date;
+        }
+        else 
+        {
+            return "cannot go forward for another day";
         }
     }
 

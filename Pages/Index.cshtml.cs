@@ -304,11 +304,26 @@ public class IndexModel : PageModel
 
             m_Stocks = Double.Parse(decimalHolder.ToString());
 
-            totalShares = double.Parse(tickerPrice.ToString()) / double.Parse(amountBuy);
+            totalShares = double.Parse(amountBuy) / double.Parse(tickerPrice.ToString());
             m_Stocks += totalShares;
 
             // Update it back
             sql = String.Format("UPDATE Holding SET AmtofShares = {0}", m_Stocks);
+            db = new SqlCommand(sql, connection);
+            db.ExecuteNonQuery();
+
+            sql = "SELECT AmtOfCash FROM Holding";
+            db = new SqlCommand(sql, connection);
+            decimalHolder = 0;
+            decimalHolder = (decimal)db.ExecuteScalar();
+
+            m_Cash = Double.Parse(decimalHolder.ToString());
+
+            totalShares = double.Parse(amountBuy) / double.Parse(tickerPrice.ToString());
+            m_Cash -= double.Parse(amountBuy);
+
+            // Update it back
+            sql = String.Format("UPDATE Holding SET AmtOfCash = {0}", m_Cash);
             db = new SqlCommand(sql, connection);
             db.ExecuteNonQuery();
 
@@ -321,24 +336,6 @@ public class IndexModel : PageModel
             db.ExecuteNonQuery();
 
             connection.Close();
-
-            sql = "SELECT AmtOfCash FROM Holding";
-            db = new SqlCommand(sql, connection);
-            decimalHolder = 0;
-            decimalHolder = (decimal)db.ExecuteScalar();
-
-            m_Cash = Double.Parse(decimalHolder.ToString());
-
-            totalShares = double.Parse(tickerPrice.ToString()) / double.Parse(amountBuy);
-            m_Cash -= double.Parse(amountBuy);
-
-            // Update it back
-            sql = String.Format("UPDATE Holding SET AmtOfCash = {0}", m_Cash);
-            db = new SqlCommand(sql, connection);
-            db.ExecuteNonQuery();
-
-            connection.Close();
-
         }
 
 

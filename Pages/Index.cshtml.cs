@@ -415,15 +415,19 @@ public class IndexModel : PageModel
     // TAN
     public IActionResult OnPostMoveForward(string date)
     {
-        string randomDate = "";
+        DateTime limitDate = new DateTime(2022, 6, 28);
 
-        //string randomDate = DateTime.Parse(date);
-
-        // Find a random date in the last 6 months
-        // DateTime.Parse() DateTime.Now DateTime.AddWeeks
-        // Move forward a week
-
-        return new JsonResult(randomDate);
+        // Make sure it doesn't go past our oldest date (July 6) (but maybe before) 
+        if (DateTime.Parse(date) < limitDate)
+        {
+            // Move forward a week
+            date = DateTime.Parse(date).AddDays(7).ToString("yyyy-MM-dd");
+            return date;
+        }
+        else 
+        {
+            return "cannot go forward for another week";
+        }
     }
 
     public void OnGet()

@@ -312,6 +312,14 @@ public class IndexModel : PageModel
             db = new SqlCommand(sql, connection);
             db.ExecuteNonQuery();
 
+            // Update it back
+            // Make new random date
+            string randomDate = OnPostRandomDate;
+
+            sql = String.Format("UPDATE StockDate SET Holding = '{0}'", randomDate);
+            db = new SqlCommand(sql, connection);
+            db.ExecuteNonQuery();
+
             connection.Close();
         }
 
@@ -404,7 +412,14 @@ public class IndexModel : PageModel
             DateTime start = new DateTime(2022, 1, 7);
             DateTime end = new DateTime(2022, 7, 7);
             int range = (end - start).Days;
-            return randomDate = start.AddDays(gen.Next(range)).ToString("yyyy-MM-dd");
+            randomDate = start.AddDays(gen.Next(range)).ToString("yyyy-MM-dd");
+
+            if (DateTime.Parse(randomDate).DayOfWeek.ToString() == "Sunday" || DateTime.Parse(randomDate).DayOfWeek.ToString() == "Saturday")
+            {
+                randomDate = DateTime.Parse(randomDate).AddDays(3).ToString("yyyy-MM-dd");
+            }
+
+            return randomDate;
         }
     }
 

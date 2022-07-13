@@ -4,9 +4,9 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
+<div>
     <h1 class="display-4">BradRock, Inc.</h1>
-    
+
     <br />
     <div id="ticker">---</div>
     <div id="date">---</div>
@@ -15,26 +15,32 @@
     <div id="investment">---</div>
     <br />
 
-     @Html.AntiForgeryToken()
-    <input type="text" id="tickerVariable" name="tickerName" value="AAPL"/>
+    @Html.AntiForgeryToken()
     <button type="button" id="invokeData">Choose Stock</button>
+    <input type="text" id="tickerVariable" name="tickerName" value="AAPL" />
     <br />
     <br />
 
-     @Html.AntiForgeryToken()
-    <input type="text" id="buyVariable" name="buyAmount" placeholder="Enter amount of cash to spend..."/>
+    @Html.AntiForgeryToken()
     <button type="button" id="invokeBuy">Buy</button>
+    <input type="text" id="buyVariable" name="buyAmount" placeholder="Enter amount..." />
     <br />
     <br />
 
-     @Html.AntiForgeryToken()
-    <button type="button" id="invokeAjaxHello">Sell (lets you choose how much to sell and adds to cash)</button>
+    @Html.AntiForgeryToken()
+    <button type="button" id="invokeAjaxHello">Sell</button>
+    <input type="text" id="sellVariable" name="sellAmount" placeholder="Enter amount..." />
     <br />
-     @Html.AntiForgeryToken()
-    <button type="button" id="invokeAjaxHello">Hold (goes to next day without action)</button>
     <br />
-     @Html.AntiForgeryToken()
-    <button type="button" id="invokeAjaxHello">Quit (sells all, shows final result)</button>
+
+    @Html.AntiForgeryToken()
+    <button type="button" id="invokeAjaxHello">Hold</button>
+    <br />
+    <br />
+
+    @Html.AntiForgeryToken()
+    <button type="button" id="invokeAjaxHello">Quit</button>
+    <br />
     <br />
 
 

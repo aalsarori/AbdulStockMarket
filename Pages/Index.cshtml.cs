@@ -331,7 +331,7 @@ public class IndexModel : PageModel
             // Make new random date
             string randomDate = OnPostRandomDate;
 
-            sql = String.Format("UPDATE StockDate SET Holding = '{0}'", randomDate);
+            sql = String.Format("UPDATE Holding SET StockDate = '{0}'", randomDate);
             db = new SqlCommand(sql, connection);
             db.ExecuteNonQuery();
 

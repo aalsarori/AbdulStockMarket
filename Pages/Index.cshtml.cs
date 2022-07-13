@@ -321,19 +321,10 @@ public class IndexModel : PageModel
             db.ExecuteNonQuery();
 
             connection.Close();
-        }
-
-        // Subtract that amount sold to the total cash
-        if (amountBuy != null)
-        {
-            // Get shares
-            connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
-            connection = new SqlConnection(connectionString);
-            connection.Open();
 
             sql = "SELECT AmtOfCash FROM Holding";
             db = new SqlCommand(sql, connection);
-            decimal decimalHolder = 0;
+            decimalHolder = 0;
             decimalHolder = (decimal)db.ExecuteScalar();
 
             m_Cash = Double.Parse(decimalHolder.ToString());

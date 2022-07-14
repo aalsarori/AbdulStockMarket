@@ -18,18 +18,21 @@ public class IndexModel : PageModel
     // Date
     private string m_Date;
 
+    public SqlConnection connection;
+
     public IndexModel()
     {
-        
+        string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
+        connection = new SqlConnection(connectionString);
+
+        connection.Open();
     }
 
     public IActionResult OnPostGetCash(string name)
     {
         {
             // Run query
-            string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
-            SqlConnection connection = new SqlConnection(connectionString);
-            connection.Open();
+            
 
             string sql = "SELECT AmtOfCash FROM Holding";
             SqlCommand db = new SqlCommand(sql, connection);
@@ -38,7 +41,7 @@ public class IndexModel : PageModel
 
             m_Cash = Double.Parse(decimalHolder.ToString());
 
-            connection.Close();
+            
 
             // Return
             string returning = "Cash: $" + m_Cash.ToString();
@@ -50,9 +53,7 @@ public class IndexModel : PageModel
     {
         {
             // Run query
-            string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
-            SqlConnection connection = new SqlConnection(connectionString);
-            connection.Open();
+            
 
             string sql = "SELECT AmtofShares FROM Holding";
             SqlCommand db = new SqlCommand(sql, connection);
@@ -60,7 +61,7 @@ public class IndexModel : PageModel
             decimalHolder = (decimal)db.ExecuteScalar();
 
             m_Stocks = Double.Parse(decimalHolder.ToString());
-            connection.Close();
+            
 
             // Return
             string returning = "Shares: " + m_Stocks.ToString();
@@ -72,15 +73,13 @@ public class IndexModel : PageModel
     {
         {
             // Run query
-            string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
-            SqlConnection connection = new SqlConnection(connectionString);
-            connection.Open();
+            
 
             string sql = "SELECT TickerName FROM Holding";
             SqlCommand db = new SqlCommand(sql, connection);
             m_Ticker = (string)db.ExecuteScalar();
 
-            connection.Close();
+            
 
             string returning = "Ticker: " + m_Ticker;
             return new JsonResult(returning);
@@ -108,9 +107,7 @@ public class IndexModel : PageModel
         string clear = "DELETE FROM Holding";
 
         // Run query
-        string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
-        SqlConnection connection = new SqlConnection(connectionString);
-        connection.Open();
+        
         SqlCommand db = new SqlCommand(clear, connection);
         db.ExecuteNonQuery();
 
@@ -122,7 +119,7 @@ public class IndexModel : PageModel
         db.ExecuteNonQuery();
 
         // Close the connection
-        connection.Close();
+        
 
         return "";
     }
@@ -131,16 +128,13 @@ public class IndexModel : PageModel
     {
         {
             // Run query
-            string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
-            SqlConnection connection = new SqlConnection(connectionString);
-            connection.Open();
+            
 
             string sql = "SELECT StockDate FROM Holding";
             SqlCommand db = new SqlCommand(sql, connection);
             DateTime date = (DateTime)db.ExecuteScalar();
 
             m_Date = date.ToString("yyyy-MM-dd");
-            connection.Close();
 
             // Return
             string returning = "Date: " + m_Date;
@@ -153,9 +147,6 @@ public class IndexModel : PageModel
         decimal tickerPrice = 0;
 
         // Run query
-        string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
-        SqlConnection connection = new SqlConnection(connectionString);
-        connection.Open();
 
         string sql = string.Format("SELECT TickerName FROM Holding");
         SqlCommand db = new SqlCommand(sql, connection);
@@ -174,7 +165,6 @@ public class IndexModel : PageModel
         tickerPrice = (decimal)db.ExecuteScalar();
 
         // Close the connection
-        connection.Close();
 
         double investment = m_Stocks * double.Parse(tickerPrice.ToString());
 
@@ -190,9 +180,6 @@ public class IndexModel : PageModel
             double tickerPrice = 0;
 
             // Run query
-            string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
-            SqlConnection connection = new SqlConnection(connectionString);
-            connection.Open();
 
             DateTime tempDate = DateTime.Parse(m_Date);
             string sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", m_Ticker, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
@@ -202,7 +189,6 @@ public class IndexModel : PageModel
             tickerPrice = (double)db.ExecuteScalar();
 
             // Close the connection
-            connection.Close();
 
             return new JsonResult(tickerPrice);
         }
@@ -214,9 +200,6 @@ public class IndexModel : PageModel
         double tickerPrice = 0;
 
         // Run query
-        string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
-        SqlConnection connection = new SqlConnection(connectionString);
-        connection.Open();
 
         string sql = string.Format("SELECT TickerName FROM Holding");
         SqlCommand db = new SqlCommand(sql, connection);
@@ -234,7 +217,6 @@ public class IndexModel : PageModel
         tickerPrice = (double)db.ExecuteScalar();
 
         // Close the connection
-        connection.Close();
 
 
         // Divide the amount sold by the ticker price, and subtract that from the total shares
@@ -264,9 +246,6 @@ public class IndexModel : PageModel
         decimal tickerPrice = 0;
 
         // Run query
-        string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
-        SqlConnection connection = new SqlConnection(connectionString);
-        connection.Open();
 
         string sql = string.Format("SELECT TickerName FROM Holding");
         SqlCommand db = new SqlCommand(sql, connection);
@@ -285,7 +264,6 @@ public class IndexModel : PageModel
         tickerPrice = (decimal)db.ExecuteScalar();
 
         // Close the connection
-        connection.Close();
 
         // Divide the amount to buy by the ticker price, and add that to the total shares
         double totalShares = 0;
@@ -293,9 +271,6 @@ public class IndexModel : PageModel
         if (amountBuy != null)
         {
             // Get shares
-            connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
-            connection = new SqlConnection(connectionString);
-            connection.Open();
 
             sql = "SELECT AmtofShares FROM Holding";
             db = new SqlCommand(sql, connection);
@@ -335,7 +310,6 @@ public class IndexModel : PageModel
             db = new SqlCommand(sql, connection);
             db.ExecuteNonQuery();
 
-            connection.Close();
         }
 
 
@@ -352,9 +326,7 @@ public class IndexModel : PageModel
             double tickerPrice = 0;
 
             // Run query
-            string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
-            SqlConnection connection = new SqlConnection(connectionString);
-            connection.Open();
+            
 
             string sql = string.Format("SELECT TickerName FROM Holding");
             SqlCommand db = new SqlCommand(sql, connection);
@@ -372,7 +344,7 @@ public class IndexModel : PageModel
             tickerPrice = (double)db.ExecuteScalar();
 
             // Close the connection
-            connection.Close();
+            
 
             // Divide the amount sold by the ticker price, and subtract that from the total shares
             double totalSold = 0;

@@ -244,6 +244,9 @@
                 }
             });
 
+            setTimeout(wait(),2000);
+            // or put a timer here
+
             $.ajax({
                 type: "POST",
                 url: "/Index?handler=GetDate",

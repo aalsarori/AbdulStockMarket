@@ -383,19 +383,65 @@ public class IndexModel : PageModel
         }
     }
 
-    // Move the date forward by 1 week or 1 month or so function
-    // TAN
+    
+    // Move the date forward by 1 month
     public IActionResult OnPostMoveForward(string date)
     {
-        string randomDate = "";
+        DateTime limitDate = new DateTime(2022, 6, 05);
 
-        //string randomDate = DateTime.Parse(date);
+        // Make sure it doesn't go past our oldest date
+        if (DateTime.Parse(date) >= limitDate)
+        {
+            return "cannot go forward for another month";
+        }
+        else 
+        {
+            // Move forward a week
+            date = DateTime.Parse(date).AddDays(28).ToString("yyyy-MM-dd");
+            return date;
+        }
+    }
 
-        // Find a random date in the last 6 months
-        // DateTime.Parse() DateTime.Now DateTime.AddWeeks
-        // Move forward a week
+    // Move the date forward by 1 week
+    public IActionResult OnPostMoveForward(string date)
+    {
+        DateTime limitDate = new DateTime(2022, 6, 28);
 
-        return new JsonResult(randomDate);
+        // Make sure it doesn't go past our oldest date
+        if (DateTime.Parse(date) >= limitDate)
+        {
+            return "cannot go forward for another week";
+        }
+        else 
+        {
+            // Move forward a week
+            date = DateTime.Parse(date).AddDays(7).ToString("yyyy-MM-dd");
+            return date;
+        }
+    }
+
+    // Move the date forward by 1 day
+    public IActionResult OnPost1DayMoveForward(string date)
+    {
+        DateTime limitDate = new DateTime(2022, 6, 28);
+
+        if (DateTime.Parse(date) >= limitDate)
+        {
+            return "cannot go forward for another day";
+        }
+        else 
+        {
+            // Move forward a day
+            if (DateTime.Parse(date).DayOfWeek.ToString() == "Friday")
+            {
+                randomDate = DateTime.Parse(date).AddDays(3).ToString("yyyy-MM-dd");
+            }
+            else 
+            {
+                randomDate = DateTime.Parse(date).AddDays(1).ToString("yyyy-MM-dd");
+            }
+            return date;
+        }
     }
 
     public void OnGet()

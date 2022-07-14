@@ -183,10 +183,18 @@ public class IndexModel : PageModel
             double tickerPrice = 0;
 
             // Run query
-
-            DateTime tempDate = DateTime.Parse(m_Date);
-            string sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", m_Ticker, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
+            string sql = string.Format("SELECT TickerName FROM Holding");
             SqlCommand db = new SqlCommand(sql, connection);
+            m_Ticker = (string)db.ExecuteScalar();
+
+            sql = string.Format("SELECT StockDate FROM Holding");
+            db = new SqlCommand(sql, connection);
+            DateTime date = (DateTime)db.ExecuteScalar();
+            m_Date = date.ToString("yyyy-MM-dd");
+            DateTime tempDate = DateTime.Parse(m_Date);
+            
+            sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", m_Ticker, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
+            db = new SqlCommand(sql, connection);
 
             // Assign value
             tickerPrice = (double)db.ExecuteScalar();
@@ -346,44 +354,17 @@ public class IndexModel : PageModel
         return new JsonResult("Bought");
     }
 
-    // Sell everything and close the game function
-    public IActionResult OnPostQuit
+    // Create function that buys a certain amount of stock based on an amount of cash and adds it to shares but takes it from cash
+    public IActionResult OnPostHoldStocks(string amountBuy)
     {
-        get
-        {
-            double tickerPrice = 0;
+        // Move the date
+        string randomDate = OnPostMoveForward;
+        string sql = String.Format("UPDATE Holding SET StockDate = '{0}'", randomDate);
+        SqlCommand db = new SqlCommand(sql, connection);
+        db.ExecuteNonQuery();
 
-            // Run query
-            
-
-            string sql = string.Format("SELECT TickerName FROM Holding");
-            SqlCommand db = new SqlCommand(sql, connection);
-            m_Ticker = (string)db.ExecuteScalar();
-
-            sql = string.Format("SELECT StockDate FROM Holding");
-            db = new SqlCommand(sql, connection);
-            m_Date = (string)db.ExecuteScalar();
-            DateTime tempDate = DateTime.Parse(m_Date);
-            
-            sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", m_Ticker, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
-            db = new SqlCommand(sql, connection);
-
-            // Assign value
-            tickerPrice = (double)db.ExecuteScalar();
-
-            // Close the connection
-            
-
-            // Divide the amount sold by the ticker price, and subtract that from the total shares
-            double totalSold = 0;
-
-            totalSold = tickerPrice * m_Stocks;
-
-            m_Cash += totalSold;
-
-            // Should I return anything?
-            return new JsonResult(tickerPrice);
-        }
+        // Should I return something else?
+        return new JsonResult("Bought");
     }
 
     // Choose a random date in the last 6 months function
@@ -454,7 +435,7 @@ public class IndexModel : PageModel
             // Make sure it doesn't go past our oldest date
             if (DateTime.Parse(tempDate) >= limitDate)
             {
-                return "cannot go forward for another week";
+                return "COMPLETE";
             }
             else
             {

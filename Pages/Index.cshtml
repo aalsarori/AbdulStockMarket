@@ -11,8 +11,9 @@
     <div id="ticker">---</div>
     <div id="date">---</div>
     <div id="cash">---</div>
-    <div id="stocks">---</div>
     <div id="investment">---</div>
+    <div id="stocks">---</div>
+    <div id="tickerprice">---</div>
     <br />
 
     @Html.AntiForgeryToken()
@@ -113,6 +114,20 @@
                                                 },
                                                 success: function(message) {
                                                     document.getElementById("investment").innerHTML = message;
+                                                    $.ajax({
+                                                        type: "POST",
+                                                        url: "/Index?handler=GetCurrentTickerPrice",
+                                                        data: { "name": " World!" },
+                                                        contentType: 'application/x-www-form-urlencoded',
+                                                        dataType: "json",
+                                                        headers:
+                                                        {
+                                                            "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                                                        },
+                                                        success: function(message) {
+                                                            document.getElementById("tickerprice").innerHTML = message;
+                                                        }
+                                                    });
                                                 }
                                             });
                                         }
@@ -211,6 +226,20 @@
                                                     },
                                                     success: function (message) {
                                                         document.getElementById("investment").innerHTML = message;
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            url: "/Index?handler=GetCurrentTickerPrice",
+                                                            data: { "name": " World!" },
+                                                            contentType: 'application/x-www-form-urlencoded',
+                                                            dataType: "json",
+                                                            headers:
+                                                            {
+                                                                "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                                                            },
+                                                            success: function(message) {
+                                                                document.getElementById("tickerprice").innerHTML = message;
+                                                            }
+                                                        });
                                                     }
                                                 });
                                             }
@@ -307,6 +336,20 @@
                                                 },
                                                 success: function(message) {
                                                     document.getElementById("investment").innerHTML = message;
+                                                    $.ajax({
+                                                        type: "POST",
+                                                        url: "/Index?handler=GetCurrentTickerPrice",
+                                                        data: { "name": " World!" },
+                                                        contentType: 'application/x-www-form-urlencoded',
+                                                        dataType: "json",
+                                                        headers:
+                                                        {
+                                                            "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                                                        },
+                                                        success: function(message) {
+                                                            document.getElementById("tickerprice").innerHTML = message;
+                                                        }
+                                                    });
                                                 }
                                             });
                                         }

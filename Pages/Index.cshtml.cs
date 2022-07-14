@@ -177,9 +177,8 @@ public class IndexModel : PageModel
     }
 
     // Create a function that queries the database for the current price at the current day
-    public IActionResult OnPostCurrentTickerPrice
+    public IActionResult OnPostGetCurrentTickerPrice(string name)
     {
-        get
         {
             double tickerPrice = 0;
 

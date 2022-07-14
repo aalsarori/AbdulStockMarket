@@ -385,65 +385,92 @@ public class IndexModel : PageModel
 
     
     // Move the date forward by 1 month
-    public string OnPostMoveForwardMonth(string date)
+    public string OnPostMoveForwardMonth
     {
-        DateTime limitDate = new DateTime(2022, 6, 05);
+        get
+        {
+            string sql = string.Format("SELECT StockDate FROM Holding");
+            SqlCommand db = new SqlCommand(sql, connection);
+            DateTime date = (DateTime)db.ExecuteScalar();
+            m_Date = date.ToString("yyyy-MM-dd");
+            string tempDate = DateTime.Parse(m_Date).ToString("yyyy-MM-dd");
 
-        // Make sure it doesn't go past our oldest date
-        if (DateTime.Parse(date) >= limitDate)
-        {
-            return "cannot go forward for another month";
-        }
-        else 
-        {
-            // Move forward a week
-            date = DateTime.Parse(date).AddDays(28).ToString("yyyy-MM-dd");
-            return date;
+            DateTime limitDate = new DateTime(2022, 6, 05);
+
+            // Make sure it doesn't go past our oldest date
+            if (DateTime.Parse(tempDate) >= limitDate)
+            {
+                return "cannot go forward for another month";
+            }
+            else
+            {
+                // Move forward a week
+                string dates = DateTime.Parse(tempDate).AddDays(28).ToString("yyyy-MM-dd");
+                return dates;
+            }
         }
     }
 
     // Move the date forward by 1 week
-    public string OnPostMoveForward(string date)
+    public string OnPostMoveForward
     {
-        DateTime limitDate = new DateTime(2022, 6, 28);
+        get
+        {
+            string sql = string.Format("SELECT StockDate FROM Holding");
+            SqlCommand db = new SqlCommand(sql, connection);
+            DateTime date = (DateTime)db.ExecuteScalar();
+            m_Date = date.ToString("yyyy-MM-dd");
+            string tempDate = DateTime.Parse(m_Date).ToString("yyyy-MM-dd");
 
-        // Make sure it doesn't go past our oldest date
-        if (DateTime.Parse(date) >= limitDate)
-        {
-            return "cannot go forward for another week";
-        }
-        else 
-        {
-            // Move forward a week
-            date = DateTime.Parse(date).AddDays(7).ToString("yyyy-MM-dd");
-            return date;
+            DateTime limitDate = new DateTime(2022, 6, 28);
+
+            // Make sure it doesn't go past our oldest date
+            if (DateTime.Parse(tempDate) >= limitDate)
+            {
+                return "cannot go forward for another week";
+            }
+            else
+            {
+                // Move forward a week
+                string dates = DateTime.Parse(tempDate).AddDays(7).ToString("yyyy-MM-dd");
+                return dates;
+            }
         }
     }
 
     // Move the date forward by 1 day
-    public string OnPost1DayMoveForward(string date)
+    public string OnPost1DayMoveForward
     {
-        string randomDate;
-
-        DateTime limitDate = new DateTime(2022, 6, 28);
-
-        if (DateTime.Parse(date) >= limitDate)
+        get
         {
-            return "cannot go forward for another day";
-        }
-        else 
-        {
-            // Move forward a day
-            if (DateTime.Parse(date).DayOfWeek.ToString() == "Friday")
-            {
-                randomDate = DateTime.Parse(date).AddDays(3).ToString("yyyy-MM-dd");
-            }
-            else 
-            {
-                randomDate = DateTime.Parse(date).AddDays(1).ToString("yyyy-MM-dd");
-            }
+            string sql = string.Format("SELECT StockDate FROM Holding");
+            SqlCommand db = new SqlCommand(sql, connection);
+            DateTime date = (DateTime)db.ExecuteScalar();
+            m_Date = date.ToString("yyyy-MM-dd");
+            string tempDate = DateTime.Parse(m_Date).ToString("yyyy-MM-dd");
 
-            return randomDate;
+            string randomDate;
+
+            DateTime limitDate = new DateTime(2022, 6, 28);
+
+            if (DateTime.Parse(tempDate) >= limitDate)
+            {
+                return "cannot go forward for another day";
+            }
+            else
+            {
+                // Move forward a day
+                if (DateTime.Parse(tempDate).DayOfWeek.ToString() == "Friday")
+                {
+                    randomDate = DateTime.Parse(tempDate).AddDays(3).ToString("yyyy-MM-dd");
+                }
+                else
+                {
+                    randomDate = DateTime.Parse(tempDate).AddDays(1).ToString("yyyy-MM-dd");
+                }
+
+                return randomDate;
+            }
         }
     }
 

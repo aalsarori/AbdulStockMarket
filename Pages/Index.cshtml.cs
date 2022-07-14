@@ -266,6 +266,10 @@ public class IndexModel : PageModel
         string randomDate = OnPostMoveForward;
 
         // IF == COMPLETE, QUIT INSTEAD
+        if(randomDate == "COMPLETE")
+        {
+            return new JsonResult("COMPLETE");
+        }
 
         sql = String.Format("UPDATE Holding SET StockDate = '{0}'", randomDate);
         db = new SqlCommand(sql, connection);
@@ -336,6 +340,10 @@ public class IndexModel : PageModel
             string randomDate = OnPostMoveForward;
 
             // IF == COMPLETE, QUIT INSTEAD
+            if (randomDate == "COMPLETE")
+            {
+                return new JsonResult("COMPLETE");
+            }
 
             sql = String.Format("UPDATE Holding SET StockDate = '{0}'", randomDate);
             db = new SqlCommand(sql, connection);
@@ -353,6 +361,10 @@ public class IndexModel : PageModel
         string randomDate = OnPostMoveForward;
 
         // IF == COMPLETE, QUIT INSTEAD
+        if (randomDate == "COMPLETE")
+        {
+            return new JsonResult("COMPLETE");
+        }
 
         string sql = String.Format("UPDATE Holding SET StockDate = '{0}'", randomDate);
         SqlCommand db = new SqlCommand(sql, connection);

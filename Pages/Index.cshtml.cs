@@ -164,7 +164,11 @@ public class IndexModel : PageModel
         // Assign value
         tickerPrice = (decimal)db.ExecuteScalar();
 
-        // Close the connection
+        sql = "SELECT AmtofShares FROM Holding";
+        db = new SqlCommand(sql, connection);
+        decimal decimalHolder = 0;
+        decimalHolder = (decimal)db.ExecuteScalar();
+        m_Stocks = Double.Parse(decimalHolder.ToString());
 
         double investment = m_Stocks * double.Parse(tickerPrice.ToString());
 

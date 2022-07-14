@@ -199,8 +199,21 @@ public class IndexModel : PageModel
     {
         decimal tickerPrice = 0;
 
-        string sql = string.Format("SELECT TickerName FROM Holding");
+        string sql = "SELECT AmtOfCash FROM Holding";
         SqlCommand db = new SqlCommand(sql, connection);
+        decimal decimalHolder = 0;
+        decimalHolder = (decimal)db.ExecuteScalar();
+        m_Cash = Double.Parse(decimalHolder.ToString());
+
+        sql = "SELECT AmtofShares FROM Holding";
+        db = new SqlCommand(sql, connection);
+        decimalHolder = 0;
+        decimalHolder = (decimal)db.ExecuteScalar();
+
+        m_Stocks = Double.Parse(decimalHolder.ToString());
+
+        sql = string.Format("SELECT TickerName FROM Holding");
+        db = new SqlCommand(sql, connection);
         m_Ticker = (string)db.ExecuteScalar();
 
         sql = string.Format("SELECT StockDate FROM Holding");
@@ -394,7 +407,6 @@ public class IndexModel : PageModel
             return randomDate;
         }
     }
-
     
     // Move the date forward by 1 month
     public string OnPostMoveForwardMonth

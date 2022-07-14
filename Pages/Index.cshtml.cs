@@ -425,7 +425,7 @@ public class IndexModel : PageModel
         else 
         {
             // Move forward a week
-            date = DateTime.Parse(date).AddMonths(1).ToString("yyyy-MM-dd");
+            date = DateTime.Parse(date).AddDays(28).ToString("yyyy-MM-dd");
             return date;
         }
     }
@@ -463,6 +463,10 @@ public class IndexModel : PageModel
             if (DateTime.Parse(date).DayOfWeek.ToString() == "Friday")
             {
                 randomDate = DateTime.Parse(date).AddDays(3).ToString("yyyy-MM-dd");
+            }
+            else 
+            {
+                randomDate = DateTime.Parse(date).AddDays(1).ToString("yyyy-MM-dd");
             }
             return date;
         }

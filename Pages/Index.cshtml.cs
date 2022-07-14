@@ -265,11 +265,7 @@ public class IndexModel : PageModel
 
         string randomDate = OnPostMoveForward;
 
-        // 
-
-        // MAKE A FUNCTION TO END GAME IF IT IS JUNE 28
-
-        //
+        // IF == COMPLETE, QUIT INSTEAD
 
         sql = String.Format("UPDATE Holding SET StockDate = '{0}'", randomDate);
         db = new SqlCommand(sql, connection);
@@ -339,11 +335,7 @@ public class IndexModel : PageModel
             // Make new random date
             string randomDate = OnPostMoveForward;
 
-            // 
-
-            // MAKE A FUNCTION TO END GAME IF IT IS JUNE 28
-
-            //
+            // IF == COMPLETE, QUIT INSTEAD
 
             sql = String.Format("UPDATE Holding SET StockDate = '{0}'", randomDate);
             db = new SqlCommand(sql, connection);
@@ -359,6 +351,9 @@ public class IndexModel : PageModel
     {
         // Move the date
         string randomDate = OnPostMoveForward;
+
+        // IF == COMPLETE, QUIT INSTEAD
+
         string sql = String.Format("UPDATE Holding SET StockDate = '{0}'", randomDate);
         SqlCommand db = new SqlCommand(sql, connection);
         db.ExecuteNonQuery();

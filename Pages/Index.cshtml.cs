@@ -193,8 +193,8 @@ public class IndexModel : PageModel
             tickerPrice = (double)db.ExecuteScalar();
 
             // Close the connection
-
-            return new JsonResult(tickerPrice);
+            string returning = "Ticker Price: $" + Math.Round(tickerPrice, 2);
+            return new JsonResult(returning);
         }
     }
 

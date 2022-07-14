@@ -385,7 +385,7 @@ public class IndexModel : PageModel
 
     
     // Move the date forward by 1 month
-    public IActionResult OnPostMoveForward(string date)
+    public string OnPostMoveForwardMonth(string date)
     {
         DateTime limitDate = new DateTime(2022, 6, 05);
 
@@ -403,7 +403,7 @@ public class IndexModel : PageModel
     }
 
     // Move the date forward by 1 week
-    public IActionResult OnPostMoveForward(string date)
+    public string OnPostMoveForward(string date)
     {
         DateTime limitDate = new DateTime(2022, 6, 28);
 
@@ -421,8 +421,10 @@ public class IndexModel : PageModel
     }
 
     // Move the date forward by 1 day
-    public IActionResult OnPost1DayMoveForward(string date)
+    public string OnPost1DayMoveForward(string date)
     {
+        string randomDate;
+
         DateTime limitDate = new DateTime(2022, 6, 28);
 
         if (DateTime.Parse(date) >= limitDate)
@@ -440,7 +442,8 @@ public class IndexModel : PageModel
             {
                 randomDate = DateTime.Parse(date).AddDays(1).ToString("yyyy-MM-dd");
             }
-            return date;
+
+            return randomDate;
         }
     }
 

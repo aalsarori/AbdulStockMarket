@@ -309,6 +309,12 @@ public class IndexModel : PageModel
             // Make new random date
             string randomDate = OnPostMoveForward;
 
+            // 
+
+            // MAKE A FUNCTION TO END GAME IF IT IS JUNE 28
+
+            //
+
             sql = String.Format("UPDATE Holding SET StockDate = '{0}'", randomDate);
             db = new SqlCommand(sql, connection);
             db.ExecuteNonQuery();

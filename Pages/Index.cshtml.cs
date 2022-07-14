@@ -197,7 +197,7 @@ public class IndexModel : PageModel
     // Create function that sells a certain amount of stock and adds that money for the price of that day to cash but takes away the shares
     public IActionResult OnPostSellStocks(string amountSold)
     {
-        double tickerPrice = 0;
+        decimal tickerPrice = 0;
 
         string sql = string.Format("SELECT TickerName FROM Holding");
         SqlCommand db = new SqlCommand(sql, connection);
@@ -205,21 +205,21 @@ public class IndexModel : PageModel
 
         sql = string.Format("SELECT StockDate FROM Holding");
         db = new SqlCommand(sql, connection);
-        m_Date = (string)db.ExecuteScalar();
-        DateTime tempDate = DateTime.Parse(m_Date);
+        DateTime tempDate = (DateTime)db.ExecuteScalar();
+        m_Date = tempDate.ToString("yyyy-MM-dd");
 
         sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", m_Ticker, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
         db = new SqlCommand(sql, connection);
 
         // Assign value
-        tickerPrice = (double)db.ExecuteScalar();
+        tickerPrice = (decimal)db.ExecuteScalar();
 
         // Divide the amount sold by the ticker price, and subtract that from the total shares
         double totalSold = 0;
 
         if (amountSold != null)
         {
-            totalSold = tickerPrice * double.Parse(amountSold);
+            totalSold = double.Parse(tickerPrice.ToString()) * double.Parse(amountSold);
         }
 
         // Add that amount sold to the total cash
@@ -253,8 +253,6 @@ public class IndexModel : PageModel
     {
         decimal tickerPrice = 0;
 
-        // Run query
-
         string sql = string.Format("SELECT TickerName FROM Holding");
         SqlCommand db = new SqlCommand(sql, connection);
         m_Ticker = (string)db.ExecuteScalar();
@@ -270,8 +268,6 @@ public class IndexModel : PageModel
 
         // Assign value
         tickerPrice = (decimal)db.ExecuteScalar();
-
-        // Close the connection
 
         // Divide the amount to buy by the ticker price, and add that to the total shares
         double totalShares = 0;
@@ -316,7 +312,6 @@ public class IndexModel : PageModel
             sql = String.Format("UPDATE Holding SET StockDate = '{0}'", randomDate);
             db = new SqlCommand(sql, connection);
             db.ExecuteNonQuery();
-
         }
 
         // Should I return something else?

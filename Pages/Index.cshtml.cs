@@ -371,7 +371,7 @@ public class IndexModel : PageModel
         db.ExecuteNonQuery();
 
         // Should I return something else?
-        return new JsonResult("Bought");
+        return new JsonResult("Hold");
     }
 
     // Choose a random date in the last 6 months function

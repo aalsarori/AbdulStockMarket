@@ -373,7 +373,14 @@
             });
         });
 
-        $("#lastaction").change();
+        $("#lastaction").change(function() {
+            var action = $('#lastaction').val();
+
+            if (action == "COMPLETE") {
+                document.getElementById("lastaction").style.display = "";
+                document.getElementById("lastaction").innerHTML = "Game Over";
+            }
+        });
 
         // Do a on change where if last action is COMPLETE then you lock the buttons and show the final investment
     </script>

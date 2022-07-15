@@ -180,7 +180,7 @@ public class IndexModel : PageModel
     public IActionResult OnPostGetCurrentTickerPrice(string name)
     {
         {
-            double tickerPrice = 0;
+            decimal tickerPrice = 0;
 
             // Run query
             string sql = string.Format("SELECT TickerName FROM Holding");
@@ -197,7 +197,7 @@ public class IndexModel : PageModel
             db = new SqlCommand(sql, connection);
 
             // Assign value
-            tickerPrice = (double)db.ExecuteScalar();
+            tickerPrice = (decimal)db.ExecuteScalar();
 
             // Close the connection
             string returning = "Ticker Price: $" + Math.Round(tickerPrice, 2);

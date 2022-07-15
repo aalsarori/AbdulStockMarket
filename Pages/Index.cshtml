@@ -9,15 +9,24 @@
 
     <br />
 
+    <div id="final" style="display: none;">
+        <div>Game Complete!</div>
+        <div>Initial Cash: $10000</div>
+    </div>
+
+    <div id="cash">---</div>
+    <div id="investment">---</div>
+    <div id="ticker">---</div>
+
     <div id="dataholder">
-        <div style="display:block;" id="lastaction">Hidden</div>
-        <div id="ticker">---</div>
-        <div id="date">---</div>
-        <div id="cash">---</div>
-        <div id="investment">---</div>
         <div id="stocks">---</div>
         <div id="tickerprice">---</div>
+        <div id="date">---</div>
     </div>
+
+    <div style="display:none;" id="lastaction">Hidden</div>
+
+
 
     <br />
 
@@ -281,6 +290,10 @@
                 success: function (message) {
                     // Do the logic here instead of in the .cs, return the ticker pricec though, and have global variables for Cash, Ticker, etc.. and actually return the name instead of the public variable in the .cs file
                     document.getElementById("lastaction").innerHTML = message;
+                    if (message == "COMPLETE") {
+                        document.getElementById("dataholder").style.display = "none";
+                        document.getElementById("final").style.display = "block";
+                    }
                 }
             });
 
@@ -373,14 +386,6 @@
                         });
                     }
                 });
-            }
-        });
-
-        $("#lastaction").change(function () {
-            var action = $('#lastaction').val();
-
-            if (action == "COMPLETE") {
-                document.getElementById("#lastaction").innerHTML = "Game Over";
             }
         });
 

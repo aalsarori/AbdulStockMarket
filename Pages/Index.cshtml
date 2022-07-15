@@ -37,11 +37,30 @@
     <br />
 
     @Html.AntiForgeryToken()
-    <input type="text" id="changeVariable" name="changeVariable" placeholder="Enter amount..." />
-    <button type="button" id="invokeBuy">Buy</button>
-    <button type="button" id="invokeSell">Sell</button>
-    <br />
-    <br />
+    <div id="choosescreen">
+        <button type="button" id="goBuy">Buy</button>
+        <br />
+        <br />
+        <button type="button" id="goSell">Sell</button>
+        <br />
+        <br />
+    </div>
+
+    @Html.AntiForgeryToken()
+    <div id="buyscreen" style="display: none;">
+        <input type="text" id="buyVariable" name="buyVariable" placeholder="Enter amount..." />
+        <button type="button" id="invokeBuy">Buy</button>
+        <br />
+        <br />
+    </div>
+
+    @Html.AntiForgeryToken()
+    <div id="sellscreen" style="display: none;">
+        <input type="text" id="sellVariable" name="sellVariable" placeholder="Enter amount..." />
+        <button type="button" id="invokeSell">Sell</button>
+        <br />
+        <br />
+    </div>
 
     @Html.AntiForgeryToken()
     <button type="button" id="invokeHold">Hold</button>
@@ -80,6 +99,10 @@
                 },
                 success: function (message) {
                     document.getElementById("ticker").innerHTML = message;
+
+                    document.getElementById("choosescreen").style.display = "block";
+                    document.getElementById("sellscreen").style.display = "none";
+                    document.getElementById("buyscreen").style.display = "none";
 
                     $.ajax({
                         type: "POST",
@@ -156,7 +179,7 @@
         });
 
         $("#invokeBuy").click(function () {
-            var amountMoney = $('#changeVariable').val();
+            var amountMoney = $('#buyVariable').val();
             var tickerChosen = $('#tickerVariable').val();
 
             $.ajax({
@@ -173,118 +196,11 @@
                     // Do the logic here instead of in the .cs, return the ticker pricec though, and have global variables for Cash, Ticker, etc.. and actually return the name instead of the public variable in the .cs file
                     document.getElementById("lastaction").innerHTML = message;
                     // Call new function
-                }
-            });
 
-            setTimeout(wait(), 2000);
-            // or put a timer here
+                    document.getElementById("choosescreen").style.display = "block";
+                    document.getElementById("sellscreen").style.display = "none";
+                    document.getElementById("buyscreen").style.display = "none";
 
-            function wait() {
-                // Make all this a function you can call
-                $.ajax({
-                    type: "POST",
-                    url: "/Index?handler=GetDate",
-                    data: { "name": " World!" },
-                    contentType: 'application/x-www-form-urlencoded',
-                    dataType: "json",
-                    headers:
-                    {
-                        "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
-                    },
-                    success: function (message) {
-                        document.getElementById("date").innerHTML = message;
-                        $.ajax({
-                            type: "POST",
-                            url: "/Index?handler=GetTicker",
-                            data: { "name": tickerChosen },
-                            contentType: 'application/x-www-form-urlencoded',
-                            dataType: "json",
-                            headers:
-                            {
-                                "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
-                            },
-                            success: function (message) {
-                                document.getElementById("ticker").innerHTML = message;
-                                $.ajax({
-                                    type: "POST",
-                                    url: "/Index?handler=GetStocks",
-                                    data: { "name": " World!" },
-                                    contentType: 'application/x-www-form-urlencoded',
-                                    dataType: "json",
-                                    headers:
-                                    {
-                                        "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
-                                    },
-                                    success: function (message) {
-                                        document.getElementById("stocks").innerHTML = message;
-                                        $.ajax({
-                                            type: "POST",
-                                            url: "/Index?handler=GetCash",
-                                            data: { "name": " World!" },
-                                            contentType: 'application/x-www-form-urlencoded',
-                                            dataType: "json",
-                                            headers:
-                                            {
-                                                "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
-                                            },
-                                            success: function (message) {
-                                                document.getElementById("cash").innerHTML = message;
-                                                $.ajax({
-                                                    type: "POST",
-                                                    url: "/Index?handler=GetInvestment",
-                                                    data: { "name": " World!" },
-                                                    contentType: 'application/x-www-form-urlencoded',
-                                                    dataType: "json",
-                                                    headers:
-                                                    {
-                                                        "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
-                                                    },
-                                                    success: function (message) {
-                                                        document.getElementById("investment").innerHTML = message;
-                                                        $.ajax({
-                                                            type: "POST",
-                                                            url: "/Index?handler=GetCurrentTickerPrice",
-                                                            data: { "name": " World!" },
-                                                            contentType: 'application/x-www-form-urlencoded',
-                                                            dataType: "json",
-                                                            headers:
-                                                            {
-                                                                "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
-                                                            },
-                                                            success: function (message) {
-                                                                document.getElementById("tickerprice").innerHTML = message;
-                                                            }
-                                                        });
-                                                    }
-                                                });
-                                            }
-                                        });
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
-            }
-        });
-
-        $("#invokeSell").click(function () {
-            var amountMoney = $('#changeVariable').val();
-            var tickerChosen = $('#tickerVariable').val();
-
-            $.ajax({
-                type: "POST",
-                url: "/Index?handler=SellStocks",
-                data: { "amountSold": amountMoney },
-                contentType: 'application/x-www-form-urlencoded',
-                dataType: "json",
-                headers:
-                {
-                    "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
-                },
-                success: function (message) {
-                    // Do the logic here instead of in the .cs, return the ticker pricec though, and have global variables for Cash, Ticker, etc.. and actually return the name instead of the public variable in the .cs file
-                    document.getElementById("lastaction").innerHTML = message;
                     if (message == "COMPLETE") {
                         document.getElementById("dataholder").style.display = "none";
                         document.getElementById("final").style.display = "block";
@@ -382,6 +298,136 @@
                     }
                 });
             }
+        });
+
+        $("#invokeSell").click(function () {
+            var amountMoney = $('#sellVariable').val();
+            var tickerChosen = $('#tickerVariable').val();
+
+            $.ajax({
+                type: "POST",
+                url: "/Index?handler=SellStocks",
+                data: { "amountSold": amountMoney },
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: "json",
+                headers:
+                {
+                    "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                success: function (message) {
+                    // Do the logic here instead of in the .cs, return the ticker pricec though, and have global variables for Cash, Ticker, etc.. and actually return the name instead of the public variable in the .cs file
+                    document.getElementById("lastaction").innerHTML = message;
+                    document.getElementById("choosescreen").style.display = "block";
+                    document.getElementById("sellscreen").style.display = "none";
+                    document.getElementById("buyscreen").style.display = "none";
+
+                    if (message == "COMPLETE") {
+                        document.getElementById("dataholder").style.display = "none";
+                        document.getElementById("final").style.display = "block";
+                    }
+                }
+            });
+
+            setTimeout(wait(), 2000);
+            // or put a timer here
+
+            function wait() {
+                // Make all this a function you can call
+                $.ajax({
+                    type: "POST",
+                    url: "/Index?handler=GetDate",
+                    data: { "name": " World!" },
+                    contentType: 'application/x-www-form-urlencoded',
+                    dataType: "json",
+                    headers:
+                    {
+                        "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function (message) {
+                        document.getElementById("date").innerHTML = message;
+                        $.ajax({
+                            type: "POST",
+                            url: "/Index?handler=GetTicker",
+                            data: { "name": tickerChosen },
+                            contentType: 'application/x-www-form-urlencoded',
+                            dataType: "json",
+                            headers:
+                            {
+                                "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                            },
+                            success: function (message) {
+                                document.getElementById("ticker").innerHTML = message;
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/Index?handler=GetStocks",
+                                    data: { "name": " World!" },
+                                    contentType: 'application/x-www-form-urlencoded',
+                                    dataType: "json",
+                                    headers:
+                                    {
+                                        "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                                    },
+                                    success: function (message) {
+                                        document.getElementById("stocks").innerHTML = message;
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/Index?handler=GetCash",
+                                            data: { "name": " World!" },
+                                            contentType: 'application/x-www-form-urlencoded',
+                                            dataType: "json",
+                                            headers:
+                                            {
+                                                "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                                            },
+                                            success: function (message) {
+                                                document.getElementById("cash").innerHTML = message;
+                                                $.ajax({
+                                                    type: "POST",
+                                                    url: "/Index?handler=GetInvestment",
+                                                    data: { "name": " World!" },
+                                                    contentType: 'application/x-www-form-urlencoded',
+                                                    dataType: "json",
+                                                    headers:
+                                                    {
+                                                        "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                                                    },
+                                                    success: function (message) {
+                                                        document.getElementById("investment").innerHTML = message;
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            url: "/Index?handler=GetCurrentTickerPrice",
+                                                            data: { "name": " World!" },
+                                                            contentType: 'application/x-www-form-urlencoded',
+                                                            dataType: "json",
+                                                            headers:
+                                                            {
+                                                                "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                                                            },
+                                                            success: function (message) {
+                                                                document.getElementById("tickerprice").innerHTML = message;
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        $("#goBuy").click(function () {
+            document.getElementById("choosescreen").style.display = "none";
+            document.getElementById("buyscreen").style.display = "block";
+        });
+
+        $("#goSell").click(function () {
+            document.getElementById("choosescreen").style.display = "none";
+            document.getElementById("sellscreen").style.display = "block";
         });
 
             // Do a on change where if last action is COMPLETE then you lock the buttons and show the final investment

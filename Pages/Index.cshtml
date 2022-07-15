@@ -37,14 +37,9 @@
     <br />
 
     @Html.AntiForgeryToken()
+    <input type="text" id="changeVariable" name="changeVariable" placeholder="Enter amount..." />
     <button type="button" id="invokeBuy">Buy</button>
-    <input type="text" id="buyVariable" name="buyAmount" placeholder="Enter amount..." />
-    <br />
-    <br />
-
-    @Html.AntiForgeryToken()
     <button type="button" id="invokeSell">Sell</button>
-    <input type="text" id="sellVariable" name="sellAmount" placeholder="Enter amount..." />
     <br />
     <br />
 
@@ -161,7 +156,7 @@
         });
 
         $("#invokeBuy").click(function () {
-            var amountMoney = $('#buyVariable').val();
+            var amountMoney = $('#changeVariable').val();
             var tickerChosen = $('#tickerVariable').val();
 
             $.ajax({
@@ -274,7 +269,7 @@
         });
 
         $("#invokeSell").click(function () {
-            var amountMoney = $('#sellVariable').val();
+            var amountMoney = $('#changeVariable').val();
             var tickerChosen = $('#tickerVariable').val();
 
             $.ajax({

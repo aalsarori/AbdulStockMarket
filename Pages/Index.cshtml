@@ -28,50 +28,52 @@
 
 
 
-    <br />
+    <div id="buttondisplay">
+        <br />
 
-    @Html.AntiForgeryToken()
-    <button type="button" id="invokeData">Choose Stock</button>
-    <input type="text" id="tickerVariable" name="tickerName" value="AAPL" />
-    <br />
-    <br />
+        @Html.AntiForgeryToken()
+        <button type="button" id="invokeData">Choose Stock</button>
+        <input type="text" id="tickerVariable" name="tickerName" value="AAPL" />
+        <br />
+        <br />
 
-    @Html.AntiForgeryToken()
-    <div id="choosescreen">
-        <button type="button" id="goBuy">Buy</button>
+        @Html.AntiForgeryToken()
+        <div id="choosescreen">
+            <button type="button" id="goBuy">Buy</button>
+            <br />
+            <br />
+            <button type="button" id="goSell">Sell</button>
+            <br />
+            <br />
+        </div>
+
+        @Html.AntiForgeryToken()
+        <div id="buyscreen" style="display: none;">
+            <input type="text" id="buyVariable" name="buyVariable" placeholder="Enter amount..." />
+            <button type="button" id="invokeBuy">Buy</button>
+            <br />
+            <br />
+        </div>
+
+        @Html.AntiForgeryToken()
+        <div id="sellscreen" style="display: none;">
+            <input type="text" id="sellVariable" name="sellVariable" placeholder="Enter amount..." />
+            <button type="button" id="invokeSell">Sell</button>
+            <br />
+            <br />
+        </div>
+
+        @Html.AntiForgeryToken()
+        <button type="button" id="invokeHold">Hold</button>
         <br />
         <br />
-        <button type="button" id="goSell">Sell</button>
+
+        @Html.AntiForgeryToken()
+        <button type="button" id="invokeQuit">Quit</button>
         <br />
         <br />
+
     </div>
-
-    @Html.AntiForgeryToken()
-    <div id="buyscreen" style="display: none;">
-        <input type="text" id="buyVariable" name="buyVariable" placeholder="Enter amount..." />
-        <button type="button" id="invokeBuy">Buy</button>
-        <br />
-        <br />
-    </div>
-
-    @Html.AntiForgeryToken()
-    <div id="sellscreen" style="display: none;">
-        <input type="text" id="sellVariable" name="sellVariable" placeholder="Enter amount..." />
-        <button type="button" id="invokeSell">Sell</button>
-        <br />
-        <br />
-    </div>
-
-    @Html.AntiForgeryToken()
-    <button type="button" id="invokeHold">Hold</button>
-    <br />
-    <br />
-
-    @Html.AntiForgeryToken()
-    <button type="button" id="invokeQuit">Quit</button>
-    <br />
-    <br />
-
 
 </div>
 
@@ -202,6 +204,7 @@
                     document.getElementById("buyscreen").style.display = "none";
 
                     if (message == "COMPLETE") {
+                        document.getElementById("buttondisplay").style.display = "none";
                         document.getElementById("dataholder").style.display = "none";
                         document.getElementById("final").style.display = "block";
                     }
@@ -322,6 +325,7 @@
                     document.getElementById("buyscreen").style.display = "none";
 
                     if (message == "COMPLETE") {
+                        document.getElementById("buttondisplay").style.display = "none";
                         document.getElementById("dataholder").style.display = "none";
                         document.getElementById("final").style.display = "block";
                     }
@@ -443,6 +447,7 @@
                     if (message == "COMPLETE") {
                         document.getElementById("dataholder").style.display = "none";
                         document.getElementById("final").style.display = "block";
+                        document.getElementById("buttondisplay").style.display = "none";
                     }
                 }
             });
@@ -559,6 +564,7 @@
                     document.getElementById("sellscreen").style.display = "none";
                     document.getElementById("buyscreen").style.display = "none";
                     document.getElementById("dataholder").style.display = "none";
+                    document.getElementById("buttondisplay").style.display = "none";
                     document.getElementById("final").style.display = "block";
                 }
             });
@@ -665,6 +671,6 @@
             document.getElementById("sellscreen").style.display = "block";
         });
 
-            // Do a on change where if last action is COMPLETE then you lock the buttons and show the final investment
+                // Do a on change where if last action is COMPLETE then you lock the buttons and show the final investment
     </script>
 }

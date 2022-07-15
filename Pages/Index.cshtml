@@ -10,7 +10,7 @@
     <br />
 
     <div id="dataholder">
-        <div style="display:none;" id="lastaction">Hidden</div>
+        <div style="display:block;" id="lastaction">Hidden</div>
         <div id="ticker">---</div>
         <div id="date">---</div>
         <div id="cash">---</div>
@@ -40,12 +40,12 @@
     <br />
 
     @Html.AntiForgeryToken()
-    <button type="button" id="invokeAjaxHello">Hold</button>
+    <button type="button" id="invokeHold">Hold</button>
     <br />
     <br />
 
     @Html.AntiForgeryToken()
-    <button type="button" id="invokeAjaxHello">Quit</button>
+    <button type="button" id="invokeQuit">Quit</button>
     <br />
     <br />
 
@@ -377,8 +377,7 @@
             var action = $('#lastaction').val();
 
             if (action == "COMPLETE") {
-                document.getElementById("lastaction").style.display = "";
-                document.getElementById("lastaction").innerHTML = "Game Over";
+                document.getElementById("#lastaction").innerHTML = "Game Over";
             }
         });
 

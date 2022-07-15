@@ -374,6 +374,65 @@ public class IndexModel : PageModel
         return new JsonResult("Hold");
     }
 
+    public IActionResult OnPostQuitGame(string amountBuy)
+    {
+        // Get the date
+        string sql = "SELECT StockDate FROM Holding";
+        SqlCommand db = new SqlCommand(sql, connection);
+        DateTime date = (DateTime)db.ExecuteScalar();
+
+        m_Date = date.ToString("yyyy-MM-dd");
+
+        // Get the amount of shares
+        sql = "SELECT AmtofShares FROM Holding";
+        db = new SqlCommand(sql, connection);
+        decimal decimalHolder = 0;
+        decimalHolder = (decimal)db.ExecuteScalar();
+
+        m_Stocks = Double.Parse(decimalHolder.ToString());
+
+        // Get the ticker price
+        // Run query
+        sql = string.Format("SELECT TickerName FROM Holding");
+        db = new SqlCommand(sql, connection);
+        m_Ticker = (string)db.ExecuteScalar();
+
+        DateTime tempDate = DateTime.Parse(m_Date);
+
+        sql = string.Format("SELECT ClosePrice FROM Stocks WHERE Ticker = '{0}' AND DayPart = '{1}' AND MonthPart = '{2}' AND YearPart = '{3}' ", m_Ticker, tempDate.ToString("dd"), tempDate.ToString("MM"), tempDate.ToString("yyyy"));
+        db = new SqlCommand(sql, connection);
+
+        // Assign value
+        decimal tickerPrice = (decimal)db.ExecuteScalar();
+
+        // Add the ticker price * amount of shares to cash
+        double new_amount = double.Parse(tickerPrice.ToString()) * m_Stocks;
+
+        // Get cash
+        sql = "SELECT AmtOfCash FROM Holding";
+        db = new SqlCommand(sql, connection);
+        decimalHolder = 0;
+        decimalHolder = (decimal)db.ExecuteScalar();
+
+        m_Cash = Double.Parse(decimalHolder.ToString());
+
+        // Add to cash
+        m_Cash += new_amount;
+
+        // Clear amount of shares to 0
+        sql = String.Format("UPDATE Holding SET AmtofShares = 0", m_Stocks);
+        db = new SqlCommand(sql, connection);
+        db.ExecuteNonQuery();
+
+        // Update cash
+        sql = String.Format("UPDATE Holding SET AmtOfCash = {0}", m_Cash);
+        db = new SqlCommand(sql, connection);
+        db.ExecuteNonQuery();
+
+        // Return
+        return new JsonResult("Game Quit");
+    }
+
     // Choose a random date in the last 6 months function
     // TAN
     public string OnPostRandomDate

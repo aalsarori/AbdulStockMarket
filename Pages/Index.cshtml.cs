@@ -464,8 +464,8 @@ public class IndexModel : PageModel
 
             Random gen = new Random();
 
-            // Find a random date in the last 6 months
-            DateTime start = new DateTime(2021, 10, 1);
+            // Find a random date 6 month or older
+            DateTime start = new DateTime(2021, 7, 7);
             DateTime end = new DateTime(2022, 1, 18);
             int range = (end - start).Days;
             randomDate = start.AddDays(gen.Next(range)).ToString("yyyy-MM-dd");
@@ -490,7 +490,7 @@ public class IndexModel : PageModel
             m_Date = date.ToString("yyyy-MM-dd");
             string tempDate = DateTime.Parse(m_Date).ToString("yyyy-MM-dd");
 
-            DateTime limitDate = new DateTime(2022, 6, 05);
+            DateTime limitDate = new DateTime(2022, 6, 6);
 
             // Make sure it doesn't go past our oldest date
             if (DateTime.Parse(tempDate) >= limitDate)
@@ -517,7 +517,7 @@ public class IndexModel : PageModel
             m_Date = date.ToString("yyyy-MM-dd");
             string tempDate = DateTime.Parse(m_Date).ToString("yyyy-MM-dd");
 
-            DateTime limitDate = new DateTime(2022, 6, 28);
+            DateTime limitDate = new DateTime(2022, 6, 29);
 
             // Make sure it doesn't go past our oldest date
             if (DateTime.Parse(tempDate) >= limitDate)
@@ -546,7 +546,7 @@ public class IndexModel : PageModel
 
             string randomDate;
 
-            DateTime limitDate = new DateTime(2022, 6, 28);
+            DateTime limitDate = new DateTime(2022, 7, 6);
 
             if (DateTime.Parse(tempDate) >= limitDate)
             {

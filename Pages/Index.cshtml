@@ -16,7 +16,7 @@
         <div id="finalamount">Total Change: $-</div>
         <div id="startdate">---</div>
     </div>
-        
+
     <div id="date">---</div>
     <div id="cash">---</div>
     <div id="investment">---</div>
@@ -31,7 +31,7 @@
 
 
 
-    <div id="buttondisplay">
+    <div id="startdisplay">
         <br />
 
         @Html.AntiForgeryToken()
@@ -39,6 +39,10 @@
         <input type="text" id="tickerVariable" name="tickerName" value="AAPL" />
         <br />
         <br />
+    </div>
+
+    <div id="buttondisplay" style="display: none">
+
 
         @Html.AntiForgeryToken()
         <div id="choosescreen">
@@ -102,8 +106,8 @@
                     "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                 },
                 success: function(message) {
+                    document.getElementById("buttondisplay").style.display = "block";
                     document.getElementById("ticker").innerHTML = message;
-
                     document.getElementById("choosescreen").style.display = "block";
                     document.getElementById("sellscreen").style.display = "none";
                     document.getElementById("buyscreen").style.display = "none";
@@ -209,6 +213,7 @@
                         document.getElementById("buttondisplay").style.display = "none";
                         document.getElementById("dataholder").style.display = "none";
                         document.getElementById("final").style.display = "block";
+                        document.getElementById("startdisplay").style.display = "none";
                     }
                 }
             });
@@ -330,6 +335,7 @@
                         document.getElementById("buttondisplay").style.display = "none";
                         document.getElementById("dataholder").style.display = "none";
                         document.getElementById("final").style.display = "block";
+                        document.getElementById("startdisplay").style.display = "none";
                     }
                 }
             });
@@ -450,6 +456,22 @@
                         document.getElementById("dataholder").style.display = "none";
                         document.getElementById("final").style.display = "block";
                         document.getElementById("buttondisplay").style.display = "none";
+                        document.getElementById("startdisplay").style.display = "none";
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/Index?handler=GetStartDate",
+                            data: { "name": " World!" },
+                            contentType: 'application/x-www-form-urlencoded',
+                            dataType: "json",
+                            headers:
+                            {
+                                "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                            },
+                            success: function(message) {
+                                document.getElementById("startdate").innerHTML = message;
+                            }
+                        });
                     }
                 }
             });
@@ -567,6 +589,7 @@
                     document.getElementById("buyscreen").style.display = "none";
                     document.getElementById("dataholder").style.display = "none";
                     document.getElementById("buttondisplay").style.display = "none";
+                    document.getElementById("startdisplay").style.display = "none";
                     document.getElementById("final").style.display = "block";
                 }
             });
@@ -689,6 +712,6 @@
             document.getElementById("sellscreen").style.display = "block";
         });
 
-                        // Do a on change where if last action is COMPLETE then you lock the buttons and show the final investment
+                                // Do a on change where if last action is COMPLETE then you lock the buttons and show the final investment
     </script>
 }

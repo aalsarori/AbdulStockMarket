@@ -41,7 +41,8 @@ public class IndexModel : PageModel
 
             m_Cash = Double.Parse(decimalHolder.ToString());
 
-            
+
+            m_Cash = Math.Round(m_Cash, 2);
 
             // Return
             string returning = "Cash: $" + m_Cash.ToString();

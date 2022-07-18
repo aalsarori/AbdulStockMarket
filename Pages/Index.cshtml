@@ -12,8 +12,12 @@
     <div id="final" style="display: none;">
         <div>Game Complete!</div>
         <div>Initial Cash: $10000</div>
+        <div>Initial Investment: $0</div>
+        <div id="finalamount">Total Change: $-</div>
+        <div id="startdate">---</div>
     </div>
-
+        
+    <div id="date">---</div>
     <div id="cash">---</div>
     <div id="investment">---</div>
     <div id="ticker">---</div>
@@ -21,7 +25,6 @@
     <div id="dataholder">
         <div id="stocks">---</div>
         <div id="tickerprice">---</div>
-        <div id="date">---</div>
     </div>
 
     <div style="display:none;" id="lastaction">Hidden</div>
@@ -82,11 +85,10 @@
     Make a hidden div
     When the field says done, make it so the buttons are disabled and it says Final Score at the top and shows them their finals
 -->
-
 @section Scripts
     {
     <script type="text/javascript">
-        $("#invokeData").click(function () {
+        $("#invokeData").click(function() {
             var tickerChosen = $('#tickerVariable').val();
 
             $.ajax({
@@ -99,7 +101,7 @@
                 {
                     "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                 },
-                success: function (message) {
+                success: function(message) {
                     document.getElementById("ticker").innerHTML = message;
 
                     document.getElementById("choosescreen").style.display = "block";
@@ -116,7 +118,7 @@
                         {
                             "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                         },
-                        success: function (message) {
+                        success: function(message) {
                             document.getElementById("date").innerHTML = message;
                             $.ajax({
                                 type: "POST",
@@ -128,7 +130,7 @@
                                 {
                                     "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                                 },
-                                success: function (message) {
+                                success: function(message) {
                                     document.getElementById("stocks").innerHTML = message;
                                     $.ajax({
                                         type: "POST",
@@ -140,7 +142,7 @@
                                         {
                                             "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                                         },
-                                        success: function (message) {
+                                        success: function(message) {
                                             document.getElementById("cash").innerHTML = message;
                                             $.ajax({
                                                 type: "POST",
@@ -152,7 +154,7 @@
                                                 {
                                                     "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                                                 },
-                                                success: function (message) {
+                                                success: function(message) {
                                                     document.getElementById("investment").innerHTML = message;
                                                     $.ajax({
                                                         type: "POST",
@@ -164,7 +166,7 @@
                                                         {
                                                             "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                                                         },
-                                                        success: function (message) {
+                                                        success: function(message) {
                                                             document.getElementById("tickerprice").innerHTML = message;
                                                         }
                                                     });
@@ -180,7 +182,7 @@
             });
         });
 
-        $("#invokeBuy").click(function () {
+        $("#invokeBuy").click(function() {
             var amountMoney = $('#buyVariable').val();
             var tickerChosen = $('#tickerVariable').val();
 
@@ -194,7 +196,7 @@
                 {
                     "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                 },
-                success: function (message) {
+                success: function(message) {
                     // Do the logic here instead of in the .cs, return the ticker pricec though, and have global variables for Cash, Ticker, etc.. and actually return the name instead of the public variable in the .cs file
                     document.getElementById("lastaction").innerHTML = message;
                     // Call new function
@@ -226,7 +228,7 @@
                     {
                         "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                     },
-                    success: function (message) {
+                    success: function(message) {
                         document.getElementById("date").innerHTML = message;
                         $.ajax({
                             type: "POST",
@@ -238,7 +240,7 @@
                             {
                                 "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                             },
-                            success: function (message) {
+                            success: function(message) {
                                 document.getElementById("ticker").innerHTML = message;
                                 $.ajax({
                                     type: "POST",
@@ -250,7 +252,7 @@
                                     {
                                         "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                                     },
-                                    success: function (message) {
+                                    success: function(message) {
                                         document.getElementById("stocks").innerHTML = message;
                                         $.ajax({
                                             type: "POST",
@@ -262,7 +264,7 @@
                                             {
                                                 "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                                             },
-                                            success: function (message) {
+                                            success: function(message) {
                                                 document.getElementById("cash").innerHTML = message;
                                                 $.ajax({
                                                     type: "POST",
@@ -274,7 +276,7 @@
                                                     {
                                                         "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                                                     },
-                                                    success: function (message) {
+                                                    success: function(message) {
                                                         document.getElementById("investment").innerHTML = message;
                                                         $.ajax({
                                                             type: "POST",
@@ -286,7 +288,7 @@
                                                             {
                                                                 "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                                                             },
-                                                            success: function (message) {
+                                                            success: function(message) {
                                                                 document.getElementById("tickerprice").innerHTML = message;
                                                             }
                                                         });
@@ -303,7 +305,7 @@
             }
         });
 
-        $("#invokeSell").click(function () {
+        $("#invokeSell").click(function() {
             var amountMoney = $('#sellVariable').val();
             var tickerChosen = $('#tickerVariable').val();
 
@@ -317,7 +319,7 @@
                 {
                     "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                 },
-                success: function (message) {
+                success: function(message) {
                     // Do the logic here instead of in the .cs, return the ticker pricec though, and have global variables for Cash, Ticker, etc.. and actually return the name instead of the public variable in the .cs file
                     document.getElementById("lastaction").innerHTML = message;
                     document.getElementById("choosescreen").style.display = "block";
@@ -347,7 +349,7 @@
                     {
                         "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                     },
-                    success: function (message) {
+                    success: function(message) {
                         document.getElementById("date").innerHTML = message;
                         $.ajax({
                             type: "POST",
@@ -359,7 +361,7 @@
                             {
                                 "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                             },
-                            success: function (message) {
+                            success: function(message) {
                                 document.getElementById("ticker").innerHTML = message;
                                 $.ajax({
                                     type: "POST",
@@ -371,7 +373,7 @@
                                     {
                                         "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                                     },
-                                    success: function (message) {
+                                    success: function(message) {
                                         document.getElementById("stocks").innerHTML = message;
                                         $.ajax({
                                             type: "POST",
@@ -383,7 +385,7 @@
                                             {
                                                 "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                                             },
-                                            success: function (message) {
+                                            success: function(message) {
                                                 document.getElementById("cash").innerHTML = message;
                                                 $.ajax({
                                                     type: "POST",
@@ -395,7 +397,7 @@
                                                     {
                                                         "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                                                     },
-                                                    success: function (message) {
+                                                    success: function(message) {
                                                         document.getElementById("investment").innerHTML = message;
                                                         $.ajax({
                                                             type: "POST",
@@ -407,7 +409,7 @@
                                                             {
                                                                 "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                                                             },
-                                                            success: function (message) {
+                                                            success: function(message) {
                                                                 document.getElementById("tickerprice").innerHTML = message;
                                                             }
                                                         });
@@ -424,7 +426,7 @@
             }
         });
 
-        $("#invokeHold").click(function () {
+        $("#invokeHold").click(function() {
             var tickerChosen = $('#tickerVariable').val();
 
             $.ajax({
@@ -437,7 +439,7 @@
                 {
                     "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                 },
-                success: function (message) {
+                success: function(message) {
                     // Do the logic here instead of in the .cs, return the ticker pricec though, and have global variables for Cash, Ticker, etc.. and actually return the name instead of the public variable in the .cs file
                     document.getElementById("lastaction").innerHTML = message;
                     document.getElementById("choosescreen").style.display = "block";
@@ -467,7 +469,7 @@
                     {
                         "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                     },
-                    success: function (message) {
+                    success: function(message) {
                         document.getElementById("date").innerHTML = message;
                         $.ajax({
                             type: "POST",
@@ -479,7 +481,7 @@
                             {
                                 "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                             },
-                            success: function (message) {
+                            success: function(message) {
                                 document.getElementById("ticker").innerHTML = message;
                                 $.ajax({
                                     type: "POST",
@@ -491,7 +493,7 @@
                                     {
                                         "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                                     },
-                                    success: function (message) {
+                                    success: function(message) {
                                         document.getElementById("stocks").innerHTML = message;
                                         $.ajax({
                                             type: "POST",
@@ -503,7 +505,7 @@
                                             {
                                                 "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                                             },
-                                            success: function (message) {
+                                            success: function(message) {
                                                 document.getElementById("cash").innerHTML = message;
                                                 $.ajax({
                                                     type: "POST",
@@ -515,7 +517,7 @@
                                                     {
                                                         "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                                                     },
-                                                    success: function (message) {
+                                                    success: function(message) {
                                                         document.getElementById("investment").innerHTML = message;
                                                         $.ajax({
                                                             type: "POST",
@@ -527,7 +529,7 @@
                                                             {
                                                                 "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                                                             },
-                                                            success: function (message) {
+                                                            success: function(message) {
                                                                 document.getElementById("tickerprice").innerHTML = message;
                                                             }
                                                         });
@@ -544,7 +546,7 @@
             }
         });
 
-        $("#invokeQuit").click(function () {
+        $("#invokeQuit").click(function() {
             var tickerChosen = $('#tickerVariable').val();
 
             $.ajax({
@@ -557,9 +559,9 @@
                 {
                     "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                 },
-                success: function (message) {
+                success: function(message) {
                     // Do the logic here instead of in the .cs, return the ticker pricec though, and have global variables for Cash, Ticker, etc.. and actually return the name instead of the public variable in the .cs file
-                    document.getElementById("lastaction").innerHTML = message;
+                    document.getElementById("finalamount").innerHTML = message;
                     document.getElementById("choosescreen").style.display = "none";
                     document.getElementById("sellscreen").style.display = "none";
                     document.getElementById("buyscreen").style.display = "none";
@@ -584,7 +586,7 @@
                     {
                         "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                     },
-                    success: function (message) {
+                    success: function(message) {
                         document.getElementById("date").innerHTML = message;
                         $.ajax({
                             type: "POST",
@@ -596,7 +598,7 @@
                             {
                                 "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                             },
-                            success: function (message) {
+                            success: function(message) {
                                 document.getElementById("ticker").innerHTML = message;
                                 $.ajax({
                                     type: "POST",
@@ -608,7 +610,7 @@
                                     {
                                         "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                                     },
-                                    success: function (message) {
+                                    success: function(message) {
                                         document.getElementById("stocks").innerHTML = message;
                                         $.ajax({
                                             type: "POST",
@@ -620,7 +622,7 @@
                                             {
                                                 "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                                             },
-                                            success: function (message) {
+                                            success: function(message) {
                                                 document.getElementById("cash").innerHTML = message;
                                                 $.ajax({
                                                     type: "POST",
@@ -632,7 +634,7 @@
                                                     {
                                                         "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                                                     },
-                                                    success: function (message) {
+                                                    success: function(message) {
                                                         document.getElementById("investment").innerHTML = message;
                                                         $.ajax({
                                                             type: "POST",
@@ -644,8 +646,24 @@
                                                             {
                                                                 "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
                                                             },
-                                                            success: function (message) {
+                                                            success: function(message) {
                                                                 document.getElementById("tickerprice").innerHTML = message;
+
+                                                                $.ajax({
+                                                                    type: "POST",
+                                                                    url: "/Index?handler=GetStartDate",
+                                                                    data: { "name": " World!" },
+                                                                    contentType: 'application/x-www-form-urlencoded',
+                                                                    dataType: "json",
+                                                                    headers:
+                                                                    {
+                                                                        "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                                                                    },
+                                                                    success: function(message) {
+                                                                        document.getElementById("startdate").innerHTML = message;
+                                                                    }
+                                                                });
+
                                                             }
                                                         });
                                                     }
@@ -661,16 +679,16 @@
             }
         });
 
-        $("#goBuy").click(function () {
+        $("#goBuy").click(function() {
             document.getElementById("choosescreen").style.display = "none";
             document.getElementById("buyscreen").style.display = "block";
         });
 
-        $("#goSell").click(function () {
+        $("#goSell").click(function() {
             document.getElementById("choosescreen").style.display = "none";
             document.getElementById("sellscreen").style.display = "block";
         });
 
-                // Do a on change where if last action is COMPLETE then you lock the buttons and show the final investment
+                        // Do a on change where if last action is COMPLETE then you lock the buttons and show the final investment
     </script>
 }

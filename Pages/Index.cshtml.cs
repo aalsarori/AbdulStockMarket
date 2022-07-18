@@ -114,7 +114,7 @@ public class IndexModel : PageModel
         string randomDate = OnPostRandomDate;
 
         // Set the base values with the ticker
-        string insert = string.Format("INSERT INTO Holding (TickerName, AmtOfCash, AmtofShares, StockDate) VALUES ('{0}', 10000, 0, '{1}')", ticker, randomDate);
+        string insert = string.Format("INSERT INTO Holding (TickerName, AmtOfCash, AmtofShares, StockDate, StartDate) VALUES ('{0}', 10000, 0, '{1}', '{1}')", ticker, randomDate);
         db = new SqlCommand(insert, connection);
         db.ExecuteNonQuery();
 
@@ -138,6 +138,24 @@ public class IndexModel : PageModel
 
             // Return
             string returning = "Date: " + m_Date;
+            return new JsonResult(returning);
+        }
+    }
+
+    public IActionResult OnPostGetStartDate(string name)
+    {
+        {
+            // Run query
+
+
+            string sql = "SELECT StartDate FROM Holding";
+            SqlCommand db = new SqlCommand(sql, connection);
+            DateTime date = (DateTime)db.ExecuteScalar();
+
+            m_Date = date.ToString("yyyy-MM-dd");
+
+            // Return
+            string returning = "Start Date: " + m_Date;
             return new JsonResult(returning);
         }
     }
@@ -419,6 +437,8 @@ public class IndexModel : PageModel
         // Add to cash
         m_Cash += new_amount;
 
+        string finalchange = Math.Round(m_Cash - 10000, 2).ToString();
+
         // Clear amount of shares to 0
         sql = String.Format("UPDATE Holding SET AmtofShares = 0", m_Stocks);
         db = new SqlCommand(sql, connection);
@@ -430,7 +450,7 @@ public class IndexModel : PageModel
         db.ExecuteNonQuery();
 
         // Return
-        return new JsonResult("Game Quit");
+        return new JsonResult("Total Change: $" + finalchange);
     }
 
     // Choose a random date in the last 6 months function
@@ -444,8 +464,8 @@ public class IndexModel : PageModel
             Random gen = new Random();
 
             // Find a random date in the last 6 months
-            DateTime start = new DateTime(2022, 1, 7);
-            DateTime end = new DateTime(2022, 7, 7);
+            DateTime start = new DateTime(2021, 10, 1);
+            DateTime end = new DateTime(2022, 1, 18);
             int range = (end - start).Days;
             randomDate = start.AddDays(gen.Next(range)).ToString("yyyy-MM-dd");
 

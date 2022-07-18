@@ -4,6 +4,15 @@
     ViewData["Title"] = "Home page";
 }
 
+
+<head>
+
+    <link rel="stylesheet" href="~/css/slider.css">
+    <script src="~/js/draggable.js" defer></script>
+    <script src="~/js/example.js" defer></script>
+    <script src="https://cdn.anychart.com/releases/8.0.0/js/anychart-base.min.js"></script>
+</head>
+
 <div>
     <h1 class="display-4">BradRock, Inc.</h1>
 
@@ -55,20 +64,60 @@
         </div>
 
         @Html.AntiForgeryToken()
-        <div id="buyscreen" style="display: none;">
-            <input type="text" id="buyVariable" name="buyVariable" placeholder="Enter amount..." />
-            <button type="button" id="invokeBuy">Buy</button>
-            <br />
-            <br />
+    <div id="buyscreen" style="display: none;">
+
+        <div id="piechart-controls">
+            <canvas id="piechart" width="200%" height="200%">
+            </canvas>
+            <div id="container" style="width: 50%; height: 50%"></div>
+            <table id="proportions-table"></table>
+
         </div>
 
-        @Html.AntiForgeryToken()
-        <div id="sellscreen" style="display: none;">
-            <input type="text" id="sellVariable" name="sellVariable" placeholder="Enter amount..." />
-            <button type="button" id="invokeSell">Sell</button>
-            <br />
-            <br />
+
+        <div class="slider">
+            <input type="range" min="1" max="10000" value="50" name="mySlider" id="mySlider"
+                   onchange="updateTextInput(this.value);" />
+
+           
         </div>
+
+
+
+        <input type="text" id="buyVariable" name="buyVariable" placeholder="Enter amount..." onchange="updateSliderInput(this.value);"/>
+        <button type="button" id="invokeBuy">Buy</button>
+        <br />
+        <br />
+    </div>
+
+        @Html.AntiForgeryToken()
+    <div id="sellscreen" style="display: none;">
+
+
+        <div id="piechart-controls">
+            <canvas id="piechart" width="200%" height="200%">
+            </canvas>
+            <div id="container2" style="width: 50%; height: 50%"></div>
+            <table id="proportions-table"></table>
+
+        </div>
+
+
+        <div class="slider">
+            <input type="range" min="1" max="10000" value="50" name="mySlider2" id="mySlider2"
+                   onchange="updateTextInput1(this.value);" />
+
+
+        </div>
+
+
+
+
+        <input type="text" id="sellVariable" name="sellVariable" placeholder="Enter amount..." onchange="updateSliderInput1(this.value);" />
+        <button type="button" id="invokeSell">Sell</button>
+        <br />
+        <br />
+    </div>
 
         @Html.AntiForgeryToken()
         <button type="button" id="invokeHold">Hold</button>

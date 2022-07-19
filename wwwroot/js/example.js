@@ -235,8 +235,8 @@ function updateSliderInput1(val) {
             updateTextInput(percentages[0].toFixed(0) * 100);
             updateSliderInput(percentages[0].toFixed(0) * 100);
 
-  /*          updateTextInput1(percentages[0].toFixed(0) * 100);
-            updateSliderInput1(percentages[0].toFixed(0) * 100);*/
+            updateTextInput1(percentages[0].toFixed(0) * 100);
+            updateSliderInput1(percentages[0].toFixed(0) * 100);
 
             for (var i = 0; i < proportions.length; i += 1) {
                 labelsRow += '<th>' + proportions[i].format.label + '</th>';

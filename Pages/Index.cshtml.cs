@@ -22,7 +22,7 @@ public class IndexModel : PageModel
 
     public IndexModel()
     {
-        string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+his!$TheP@$$w0rd";
+        string connectionString = "Server=titan.cs.weber.edu, 10433;Database=AmandaShow;User ID=AmandaShow;Password=+h1sIsthenewP@ssword!";
         connection = new SqlConnection(connectionString);
 
         connection.Open();
